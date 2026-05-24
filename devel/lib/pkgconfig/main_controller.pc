@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/TA/final_ws/devel
+
+Name: main_controller
+Description: Description of main_controller
+Version: 0.0.0
+Cflags: -I/home/ubuntu/TA/final_ws/devel/include -I/home/ubuntu/TA/final_ws/src/main_controller/include
+Libs: -L${prefix}/lib -lasr_its
+Requires: geometry_msgs nav_msgs roscpp rospy std_msgs tf visualization_msgs message_runtime

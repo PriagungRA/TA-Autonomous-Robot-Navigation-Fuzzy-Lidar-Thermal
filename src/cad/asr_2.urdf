@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="CAD_ASR_WITH_OMNI">
+    <link name="laser">
+        <inertial>
+            <origin xyz="-3.1726632698791948e-09 -0.014527095824777393 2.045707248043982e-09" rpy="0.0 -0.0 0.0" />
+            <mass value="1.0030784084841826" />
+            <inertia ixx="0.0004140062601387662" iyy="0.0006847234020838644" izz="0.0004140062601389882" ixy="1.7347234759768086e-18" iyz="8.673617379884032e-19" ixz="2.7754319098077793e-17" />
+        </inertial>
+        <visual name="laser_visual">
+            <origin xyz="0.14649999682733625 0.3329999988383748 2.0457006399965395e-09" rpy="3.141592653589791 -1.5707963267948515 0" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/laser.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="laser_collision">
+            <origin xyz="0.14649999682733625 0.3329999988383748 2.0457006399965395e-09" rpy="3.141592653589791 -1.5707963267948515 0" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/laser.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="base_link">
+        <inertial>
+            <origin xyz="8.093031357751758e-06 0.5234979845352189 -0.053613979906772496" rpy="0.0 0.0 0.0" />
+            <mass value="283.33820211690704" />
+            <inertia ixx="29.641982413848485" iyy="10.427198784058046" izz="33.33005849408689" ixy="-0.006111458056046465" iyz="1.9269172799311245" ixz="-0.00118259433159655" />
+        </inertial>
+        <visual name="base_link_visual">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="base_link_collision">
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/base_link.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="camera_link">
+        <inertial>
+            <origin xyz="-0.014999998838375462 2.735289683641895e-10 -0.010434518692237446" rpy="0.0 -0.0 0.0" />
+            <mass value="0.7981209506100744" />
+            <inertia ixx="0.0017574405415030636" iyy="8.717941511329763e-05" izz="0.001784777233331647" ixy="-1.5265566588595902e-16" iyz="1.1102230246251565e-16" ixz="-1.5959455978986625e-15" />
+        </inertial>
+        <visual name="camera_link_visual">
+            <origin xyz="-0.6989999988383742 -1.9152045700820965e-05 0.17144619682733858" rpy="-6.714907318195558e-15 -4.52415882534751e-14 -1.570796326794896" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/camera_link.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="camera_link_collision">
+            <origin xyz="-0.6989999988383742 -1.9152045700820965e-05 0.17144619682733858" rpy="-6.714907318195558e-15 -4.52415882534751e-14 -1.570796326794896" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/camera_link.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="wheel_front">
+        <inertial>
+            <origin xyz="0.010121161138996691 0.03457099537991617 -0.01738990189000152" rpy="2.465190328815662e-32 -0.0 -4.930380657631324e-32" />
+            <mass value="12.318420414174582" />
+            <inertia ixx="0.02763254166321557" iyy="0.036934854314119914" izz="0.02933489630804747" ixy="0.002978695109089072" iyz="-0.005117910617127469" ixz="-0.001498343056171178" />
+        </inertial>
+        <visual name="wheel_front_visual">
+            <origin xyz="-0.5201158426687563 -0.2817960334281004 -0.8629231256072265" rpy="2.2835194947983846 -0.8434943734085423 2.283519494798289" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_front.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="wheel_front_collision">
+            <origin xyz="-0.5201158426687563 -0.2817960334281004 -0.8629231256072265" rpy="2.2835194947983846 -0.8434943734085423 2.283519494798289" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_front.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="wheel_back_right">
+        <inertial>
+            <origin xyz="0.0399999999030117 2.0277965973036772e-10 -1.1616256045954287e-09" rpy="0.0 -0.0 0.0" />
+            <mass value="12.318420414174584" />
+            <inertia ixx="0.04038132192177013" iyy="0.02676048518333607" izz="0.026760485180219007" ixy="4.440892098500626e-16" iyz="-2.1663938535236486e-28" ixz="4.113056099538445e-16" />
+        </inertial>
+        <visual name="wheel_back_right_visual">
+            <origin xyz="0.30652545566572165 -0.18990026667045798 0.1514542923361685" rpy="-1.570796326794899 3.7275829002434536e-16 -1.570796326794852" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_back_right.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="wheel_back_right_collision">
+            <origin xyz="0.30652545566572165 -0.18990026667045798 0.1514542923361685" rpy="-1.570796326794899 3.7275829002434536e-16 -1.570796326794852" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_back_right.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <link name="wheel_back_left">
+        <inertial>
+            <origin xyz="0.009520283034200218 -0.034916885754068865 0.017034543128049667" rpy="0.0 -0.0 0.0" />
+            <mass value="12.318420414174579" />
+            <inertia ixx="0.027532069547286958" iyy="0.03713946679158786" izz="0.029230755946052265" ixy="-0.0028298869142529856" iyz="-0.005063486429655801" ixz="0.0013805876667755904" />
+        </inertial>
+        <visual name="wheel_back_left_visual">
+            <origin xyz="1.0175685168513195 0.38237479186203505 0.4029341268672561" rpy="2.288448237212985 0.8663850819298051 -2.2884482372130823" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_back_left.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </visual>
+        <collision name="wheel_back_left_collision">
+            <origin xyz="1.0175685168513195 0.38237479186203505 0.4029341268672561" rpy="2.288448237212985 0.8663850819298051 -2.2884482372130823" />
+            <geometry>
+                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_back_left.stl" scale="0.001 0.001 0.001" />
+            </geometry>
+        </collision>
+    </link>
+    <joint name="base_link_wheel_back_left_to_base_link" type="continuous">
+        <origin xyz="-0.22021183204569583 0.05599999883837477 0.10821199317267395" rpy="3.141592653589741 0.509636141582347 -1.5707963267949225" />
+        <parent link="base_link" />
+        <child link="wheel_back_left" />
+        <axis xyz="-0.23800721330742242 0.872922 -0.42586376461684916" />
+    </joint>
+    <joint name="base_link_wheel_front_to_base_link" type="continuous">
+        <origin xyz="8.514795428681055e-05 0.055999998838375545 -0.2718926268273361" rpy="1.5707963267948963 -1.5707963267948513 0" />
+        <parent link="base_link" />
+        <child link="wheel_back_right" />
+        <axis xyz="-1.0 -3.6728714949158415e-46 8.118505867571403e-16" />
+    </joint>
+    <joint name="base_link_wheel_back_right_to_base_link" type="continuous">
+        <origin xyz="0.21735475795430398 0.05599896883837456 0.11366769317265416" rpy="5.23944716594017e-14 0.5270894341022825 1.5707963267949228" />
+        <parent link="base_link" />
+        <child link="wheel_front" />
+        <axis xyz="-0.2530290935539401 -0.864275 0.4347475108787531" />
+    </joint>
+    <joint name="base_link_lidar_to_base_link" type="fixed">
+        <origin xyz="-2.0457073901525293e-09 0.33199999883837567 -0.14649999682733542" rpy="3.1415926535897927 -1.5707963267948513 0" />
+        <parent link="base_link" />
+        <child link="laser" />
+    </joint>
+    <joint name="base_link_realsense_to_base_link" type="fixed">
+        <origin xyz="-1.915204570842377e-05 0.698999998838376 -0.17144619682733453" rpy="4.528322161689852e-14 -2.301770795310504e-15 1.5707963267948961" />
+        <parent link="base_link" />
+        <child link="camera_link" />
+    </joint>
+
+    <gazebo>
+        <plugin name="object_controller" filename="libgazebo_ros_planar_move.so">
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <odometryRate>20.0</odometryRate>
+            <robotBaseFrame>base_link</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
+    <gazebo reference="laser">
+        <sensor type="ray" name="head_hokuyo_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <visualize>true</visualize>
+            <update_rate>40</update_rate>
+            <ray>
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-3.14159</min_angle>
+                        <max_angle>3.14159</max_angle>
+                    </horizontal>
+                </scan>
+                <range>
+                    <min>0.10</min>
+                    <max>12.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+            </ray>
+            <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>laser</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+
+    <gazebo reference="wheel_front">
+        <mu1>1.0</mu1>
+        <mu2>0.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+    </gazebo>
+
+    <gazebo reference="wheel_back_left">
+        <mu1>1.0</mu1>
+        <mu2>0.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+    </gazebo>
+
+    <gazebo reference="wheel_back_right">
+        <mu1>1.0</mu1>
+        <mu2>0.0</mu2>
+        <kp>1000000.0</kp>
+        <kd>100.0</kd>
+        <minDepth>0.001</minDepth>
+        <maxVel>1.0</maxVel>
+    </gazebo>
+</robot>

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+    
+    <!-- Run Lidar Node -->
+    <include file="$(find rplidar_ros)/launch/rplidar.launch" />
+    <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster_node" args="0.12 0 0 0 0 0 base_link laser 100"/>
+
+    <!-- Run STM32 Communication Node -->
+    <node pkg="main_controller" type="robot_comhardware_node" name="comhardware_node" />
+ 
+    <!-- Run the map server -->
+    <arg name="map_file" default="$(find main_controller)/maps/katk_02_06_2023.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    <!-- Run the costmap node -->
+    <!-- <node name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" >
+        <rosparam file="$(find main_controller)/config/global_costmap_params.yaml" command="load" ns="costmap" />
+    </node> -->
+
+    <!-- Run Odom node -->
+    <!-- <node pkg="main_controller" type="tf_broadcaster_node" name="odom_to_base_broadcaster_node" /> -->
+    <!-- <include file="$(find main_controller)/launch/ekf.launch" /> -->
+    <include file="$(find main_controller)/launch/icp_odom.launch" />
+    
+    <!-- Run AMCL Node -->
+    <include file="$(find main_controller)/launch/amcl.launch" />
+
+    <!-- Run Rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find main_controller)/config/amcl.rviz"/>
+
+    <!-- Run Lidar Perception Node-->
+    <include file="$(find lidar_perception)/launch/lidar_segmentation.launch"/>
+
+    <!-- Run Obstacle Avoidance Node -->
+    <!-- <include file="$(find obstacle-avoidance)/launch/obstacle-avoidance.launch"/> -->
+    
+</launch>

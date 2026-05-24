@@ -1,0 +1,58 @@
+<launch>
+  <!-- Localize on a saved static map using AMCL -->
+
+  <!-- Map path: change default to your YAML if needed -->
+  <arg name="map_file" default="$(find main_controller)/maps/grit.yaml"/>
+  <!-- Toggle EKF fusion for high-rate odom->base_link TF -->
+  <arg name="use_ekf" default="true"/>
+
+  <!-- Optional initial pose for AMCL (map frame) -->
+  <arg name="initial_pose_x" default="0.0"/>
+  <arg name="initial_pose_y" default="0.0"/>
+  <arg name="initial_pose_a" default="0.0"/>
+
+  <!-- DS4 control toggles -->
+  <arg name="use_ds4" default="true" />
+  <arg name="addr" default=" " />
+  <arg name="use_standard_msgs" default="true" />
+  <arg name="autorepeat_rate" default="0" if="$(arg use_standard_msgs)" />
+
+  <!-- Run the DS4 Driver (optional) -->
+  <node if="$(arg use_ds4)" pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" >
+      <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
+
+      <param name="device_addr" value="$(arg addr)" />
+      <param name="use_standard_msgs" value="$(arg use_standard_msgs)" />
+      <param name="autorepeat_rate" value="$(arg autorepeat_rate)" if="$(arg use_standard_msgs)" />
+  </node>
+
+  <!-- Core robot nodes for DS4-driven control -->
+  <node pkg="main_controller" type="robot_node" name="robot_node" output="screen" />
+  <node pkg="main_controller" type="robot_comhardware_node" name="comhardware_node" />
+
+  <!-- Odometry source (ICP odometry publishes /odom_icp) -->
+  <include file="$(find main_controller)/launch/icp_odom.launch" />
+
+  <!-- High-rate odom->base_link TF via EKF (fuses /odom_icp) -->
+  <group if="$(arg use_ekf)">
+    <include file="$(find main_controller)/launch/ekf.launch" />
+  </group>
+
+  <!-- LiDAR driver and base_link->laser static TF -->
+  <include file="$(find rplidar_ros)/launch/rplidar_a2m8.launch" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_laser_broadcaster_node"
+        args="0.12 0 0 0 0 0 base_link laser"/>
+
+  <!-- Serve the static map on /map and /static_map service for AMCL/costmaps -->
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!-- AMCL localization (uses /scan, /map, and odom TF) -->
+  <!-- Set AMCL initial pose parameters before launching AMCL -->
+  <param name="/amcl/initial_pose_x" value="$(arg initial_pose_x)"/>
+  <param name="/amcl/initial_pose_y" value="$(arg initial_pose_y)"/>
+  <param name="/amcl/initial_pose_a" value="$(arg initial_pose_a)"/>
+  <include file="$(find main_controller)/launch/amcl.launch" />
+
+  <!-- RViz for visualization -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-f map -d $(find main_controller)/config/live.rviz"/>
+</launch>

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <!-- <arg name="nama_file"/> -->
+
+  <!-- <include file="$(find main_controller)/launch/asr_its.launch" /> -->
+
+  <!-- <node pkg="rosbag" type="record" name="record_data" args="record -O /home/asr-its/Rayhansss/$(arg nama_file).bag amcl_pose odom_icp path goal particlecloud scan map"/>    -->
+  
+  <node name="get_data" pkg="main_controller" type="GetData.py" output="screen">
+    <!-- <param name="nama_file" value="$(arg nama_file)"/> -->
+  </node>
+
+</launch>

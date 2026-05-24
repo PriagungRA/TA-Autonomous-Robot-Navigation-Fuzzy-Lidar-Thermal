@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Args for flexibility -->
+  <arg name="control_topic" default="cmd_vel" />
+  <arg name="two_d_mode" default="true" />
+
+  <!-- Camera pose relative to base_link (adjust as needed) -->
+  <arg name="cam_x" default="0.0" />
+  <arg name="cam_y" default="0.0" />
+  <arg name="cam_z" default="0.0" />
+  <arg name="cam_roll" default="0.0" />
+  <arg name="cam_pitch" default="0.0" />
+  <arg name="cam_yaw" default="0.0" />
+
+  <!-- RealSense RGB-D camera -->
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+    <arg name="align_depth" value="true" />
+    <arg name="enable_sync" value="true" />
+    <arg name="initial_reset" value="true" />
+    <arg name="enable_infra1" value="false" />
+    <arg name="enable_infra2" value="false" />
+  </include>
+
+  <!-- Static TF from robot base to camera root frame -->
+  <node pkg="tf" type="static_transform_publisher" name="base_to_camera_tf"
+        args="$(arg cam_x) $(arg cam_y) $(arg cam_z) $(arg cam_roll) $(arg cam_pitch) $(arg cam_yaw) base_link camera_link 100" />
+
+  <!-- ICP odometry (odom_icp -> base_link) -->
+  <include file="$(find main_controller)/launch/icp_odom.launch" />
+
+  <!-- EKF fuses ICP to publish odom -> base_link -->
+  <include file="$(find main_controller)/launch/ekf.launch">
+    <arg name="control_topic" value="$(arg control_topic)" />
+    <arg name="two_d_mode" value="$(arg two_d_mode)" />
+  </include>
+
+  <!-- RTAB-Map mapping with explicit RGB-D sync (fixes unsynchronized frames) -->
+  <group ns="rtabmap">
+    <!-- Synchronize RGB + Depth + Info from RealSense -->
+    <node pkg="nodelet" type="nodelet" name="rgbd_sync" args="standalone rtabmap_sync/rgbd_sync" output="screen">
+      <remap from="rgb/image"       to="/camera/color/image_rect_color"/>
+      <remap from="depth/image"     to="/camera/aligned_depth_to_color/image_raw"/>
+      <remap from="rgb/camera_info" to="/camera/color/camera_info"/>
+      <remap from="rgbd_image"      to="rgbd_image"/> <!-- output -->
+      <param name="approx_sync" value="true"/>
+      <param name="queue_size"  value="30"/>
+    </node>
+
+    <!-- RTAB-Map core as nodelet (avoids missing binary issue) -->
+    <node pkg="nodelet" type="nodelet" name="rtabmap" args="standalone rtabmap_ros/rtabmap" output="screen">
+      <param name="frame_id" value="base_link"/>
+      <param name="subscribe_rgbd" value="true"/>
+      <remap from="rgbd_image" to="rgbd_image"/>
+      <remap from="odom"       to="/odometry/filtered"/>
+    </node>
+  </group>
+</launch>

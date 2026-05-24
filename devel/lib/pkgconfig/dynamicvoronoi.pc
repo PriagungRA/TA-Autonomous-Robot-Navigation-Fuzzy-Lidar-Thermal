@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/TA/final_ws/devel
+
+Name: dynamicvoronoi
+Description: Description of dynamicvoronoi
+Version: 0.0.0
+Cflags: -I/home/ubuntu/TA/final_ws/src/dynamicvoronoi/include
+Libs: -L${prefix}/lib -ldynamicvoronoi
+Requires: 

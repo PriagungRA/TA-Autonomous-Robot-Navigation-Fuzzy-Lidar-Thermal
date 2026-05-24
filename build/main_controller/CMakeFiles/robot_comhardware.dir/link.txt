@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared -Wl,-soname,librobot_comhardware.so -o /home/ubuntu/TA/final_ws/devel/lib/librobot_comhardware.so CMakeFiles/robot_comhardware.dir/src/asr_its/robot_comhardware.cpp.o 

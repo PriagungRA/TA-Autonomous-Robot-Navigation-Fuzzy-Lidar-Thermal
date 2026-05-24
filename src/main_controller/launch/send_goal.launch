@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.0"/>
+  <arg name="w" default="1.0"/>
+  <node pkg="rostopic" type="rostopic" name="rostopic" args="pub -1 /goal geometry_msgs/PoseStamped '{header: {stamp: now, frame_id: 'map'}, pose: {position: {x: $(arg x), y: $(arg y), z: 0.0}, orientation: {z: $(arg z), w: $(arg w)}}}'"/>
+
+</launch>

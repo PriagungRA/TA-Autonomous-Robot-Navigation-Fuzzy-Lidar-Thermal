@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/TA/final_ws/devel
+
+Name: tuw_vehicle_msgs
+Description: Description of tuw_vehicle_msgs
+Version: 0.0.13
+Cflags: -I/home/ubuntu/TA/final_ws/devel/include -I/home/ubuntu/TA/final_ws/src/tuw_msgs/tuw_vehicle_msgs/include
+Libs: -L${prefix}/lib -ltuw_vehicle_msgs
+Requires: message_runtime roscpp rospy std_msgs

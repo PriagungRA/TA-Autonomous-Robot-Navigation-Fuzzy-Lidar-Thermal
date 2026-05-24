@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/TA/final_ws/devel
+
+Name: fuzzy_thermal_nav
+Description: Description of fuzzy_thermal_nav
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

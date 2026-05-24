@@ -1,0 +1,24 @@
+global_frame: map
+robot_base_frame: base_link
+update_frequency: 5.0
+publish_frequency: 5.0
+
+plugins:  
+  - {name: static_layer,       type: "costmap_2d::StaticLayer"}
+  - {name: obstacle_layer,    type: "costmap_2d::VoxelLayer"}
+  - {name: inflation_layer,    type: "costmap_2d::InflationLayer"}
+
+static_layer:  
+  map_topic: /map
+  unknown_cost_value: -1
+  lethal_cost_threshold: 50
+
+obstacle_layer:  
+  observation_sources: base_scan
+  track_unknown_space: true
+  unknown_cost_value: -1
+  base_scan: {data_type: PointCloud2,    topic: /lidar_segmented,    sensor_frame: laser,    clearing: true,    marking: true}
+
+inflation_layer:
+  cost_scaling_factor:  2.0  # exponential rate at which the obstacle cost drops off (default: 10)
+  inflation_radius:     0.1 # max. distance from an obstacle at which costs are incurred for planning paths.

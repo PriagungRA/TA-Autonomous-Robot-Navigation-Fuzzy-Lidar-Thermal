@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Runtime-configurable args to avoid unused-arg errors from includes -->
+  <arg name="control_topic" default="cmd_vel" />
+  <arg name="two_d_mode" default="true" />
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_odom_amcl" clear_params="true">
+    <!-- Load base EKF configuration -->
+    <rosparam command="load" file="$(find main_controller)/config/ekf.yaml" />
+
+    <!-- Allow overriding key params at launch-time -->
+    <param name="two_d_mode" value="$(arg two_d_mode)" />
+    <param name="control_input_topic" value="$(arg control_topic)" />
+    <!-- Ensure EKF is the sole odom->base_link TF publisher to avoid duplicates -->
+    <param name="publish_tf" value="true" />
+  </node>
+</launch>

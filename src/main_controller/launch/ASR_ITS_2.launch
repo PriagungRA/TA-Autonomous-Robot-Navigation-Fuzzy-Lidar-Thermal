@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="use_costmap" default="true" />
+
+    <!-- Run Robot Controller Node -->
+    <include file="$(find main_controller)/launch/controller.launch"/>
+
+    <!-- Run the map server -->
+    <arg name="map_file" default="$(find main_controller)/maps/KATK_V1.yaml"/>
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+    <!-- Run the costmap node -->
+    <node if="$(arg use_costmap)" name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" >
+        <rosparam file="$(find main_controller)/config/global_costmap_params.yaml" command="load" ns="costmap" />
+    </node>
+    <!-- Run Lidar Node -->
+    <!-- <include file="$(find rplidar_ros)/launch/rplidar.launch" /> -->
+    <!-- <node pkg="tf" type="static_transform_publisher" name="base_to_laser_broadcaster_node" args="0.12 0 0 0 0 0 base_link laser 100"/> -->
+
+    <!-- Run Odom node -->
+    <!-- <node pkg="main_controller" type="tf_broadcaster_node" name="odom_to_base_broadcaster_node" /> -->
+    <!-- <include file="$(find main_controller)/launch/ekf.launch" /> -->
+    <include file="$(find main_controller)/launch/icp_odom.launch" />
+    
+    <!-- Run AMCL Node -->
+    <include file="$(find main_controller)/launch/amcl.launch" />
+    <!-- <node pkg="rosservice" type="rosservice" name="global_loc" args="call -wait /global_localization" /> -->
+
+    <!-- Run Rviz -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find main_controller)/config/amcl.rviz" output="log"/>
+
+    <!-- Run Lidar Perception Node-->
+    <!-- <include file="$(find lidar_perception)/launch/lidar_segmentation.launch"/> -->
+
+    <!-- Run Obstacle Avoidance Node-->
+    <!-- <include file="$(find obstacle-avoidance)/launch/obstacle-avoidance.launch"/> -->
+
+    <!-- Run Path Planning -->
+    <node name="astar_node" pkg="path_planner" type="planner.py">
+        <param name="plan_method" type="string" value="AStar" /> <!--  Options : "Djikstra", "AStar", "RRT" -->
+        <param name="use_costmap" type="bool" value="$(arg use_costmap)" />
+        <param name="is_replan" type="bool" value="false" />
+        <param name="turn_cost_factor" type="double" value="10.00" />
+        <param name="obstacle_cost_factor" type="double" value="10.00" />
+    </node>
+
+    <!-- Run Data Logger-->
+    <!-- <include file="$(find data_logger)/launch/data_logger.launch"/> -->
+    
+</launch>

@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/TA/final_ws/devel
+
+Name: map2gazebo
+Description: Description of map2gazebo
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

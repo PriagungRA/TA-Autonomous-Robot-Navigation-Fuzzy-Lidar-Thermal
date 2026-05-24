@@ -1,0 +1,99 @@
+<launch>
+  <!-- Toggle DS4 nodes on/off -->
+  <arg name="use_ds4" default="false" />
+    
+  <!-- Run the DS4 Driver -->
+  <arg name="addr" default="84:30:95:90:12:CD" />
+  <arg name="use_standard_msgs" default="true" />
+  <arg name="autorepeat_rate" default="0" if="$(arg use_standard_msgs)" />
+
+  <node if="$(arg use_ds4)" pkg="ds4_driver" type="ds4_driver_node.py" name="ds4_driver" >
+      <rosparam command="load" file="$(find ds4_driver)/config/params.yaml" />
+
+      <param name="device_addr" value="$(arg addr)" />
+      <param name="use_standard_msgs" value="$(arg use_standard_msgs)" />
+      <param name="autorepeat_rate" value="$(arg autorepeat_rate)" if="$(arg use_standard_msgs)" />
+  </node>
+
+  <node if="$(arg use_ds4)" pkg="tf2_ros" type="static_transform_publisher" name="ds4_to_imu"
+      args="0 0.05 -0.01 -1.5707 0 1.5707 ds4 ds4_imu" />
+
+  
+  <!-- Run Robot, Comhardware, Broadcaster node -->
+  <node pkg="main_controller" type="robot_node" name="robot_node" output="screen" />
+  <!-- <node pkg="main_controller" type="tf_broadcaster_node" name="odom_to_base_broadcaster_node" /> -->
+  <include file="$(find main_controller)/launch/icp_odom.launch" />
+  <!-- High-rate odom->base_link TF via EKF -->
+  <include file="$(find main_controller)/launch/ekf.launch" />
+  <node pkg="main_controller" type="robot_comhardware_node" name="comhardware_node" />
+  
+  <!-- Run RPLIDAR Node -->
+  <include file="$(find rplidar_ros)/launch/rplidar_a2m8.launch" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_laser_broadcaster_node" args="0.12 0 0 0 0 0 base_link laser"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find main_controller)/config/live.rviz"/>
+
+
+  <arg name="hector" default="false"/>
+ 
+  <group if="$(arg hector)">
+    <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
+      <remap from="/scan" to="/scan"/>
+      <param name="map_frame" value="map" />
+      <param name="base_frame" value="base_link" />
+      <param name="odom_frame" value="odom" />
+      <param name="map_size" value="2048"/>
+      <param name="map_resolution" value="0.05"/>
+      <param name="map_start_x" value="0.5"/>
+      <param name="map_start_y" value="0.5"/>
+      <param name="map_update_angle_thresh" value="0.05" />
+      <param name="map_update_distance_thresh" value="0.05" />
+      <!-- TF timing safety -->
+      <param name="tf_use_scan_time" value="false"/>
+      <param name="scan_subscriber_queue_size" value="5"/>
+      <param name="pub_map_odom_transform" value="true"/>
+    </node>
+  </group>
+
+  <group unless="$(arg hector)">
+    <!-- Use librealsense2 (ROS1 legacy wrapper) -->
+    <include file="$(find realsense2_camera)/launch/rs_camera.launch">
+      <arg name="align_depth" value="true" />
+      <arg name="enable_pointcloud" value="true" />
+      <arg name="enable_sync" value="true" />
+      <arg name="enable_color" value="true" />
+      <arg name="enable_depth" value="true" />
+    </include>
+    <!-- Static TF from base_link to camera_link so RGB-D frames resolve -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_to_camera_tf"
+          args="0 0 0 0 0 0 base_link camera_link"/>
+    <node name="rtabmap_slam" pkg="rtabmap_slam" type="rtabmap"  output="log" args="-d --udebug">
+      <!-- Use EKF fused odometry by default -->
+      <remap from="/odom" to="/odom_icp"/>
+      <remap from="/rgb/image" to="/camera/color/image_raw"/>
+      <remap from="/rgb/camera_info" to="/camera/color/camera_info"/>
+      <remap from="/depth/image" to="/camera/aligned_depth_to_color/image_raw"/>
+      <remap from="/scan" to="/scan"/>
+      <!-- Publish RTAB-Map occupancy grid on /map for consumers expecting /map -->
+      <remap from="/grid_map" to="/map"/>
+      <param name="rgb/image_transport"   type="string" value="raw"/>
+      <param name="depth/image_transport" type="string" value="raw"/>
+      <!-- Relax sync to accommodate mixed sensor rates (camera ~30Hz, lidar ~10Hz) -->
+      <param name="sync_queue_size" type="int" value="50"/>
+      <param name="topic_queue_size" type="int" value="30"/>
+      <param name="approx_sync_max_interval" type="double" value="0.2"/>
+      
+
+      <param name="subscribe_rgb"   type="bool" value="true"/>
+      <param name="subscribe_depth" value="true"/>
+      <param name="subscribe_scan" value="true"/>
+      <param name="subscribe_scan_cloud" value="false"/>
+      <param name="subscribe_stereo" value="false"/>
+      <param name="subscribe_rgbd" value="false"/>
+      <param name="frame_id" value="base_link"/>
+      <param name="map_frame_id" value="map"/>
+      <param name="odom_frame_id" value="odom"/>
+    
+    </node>
+  </group>
+  
+</launch>

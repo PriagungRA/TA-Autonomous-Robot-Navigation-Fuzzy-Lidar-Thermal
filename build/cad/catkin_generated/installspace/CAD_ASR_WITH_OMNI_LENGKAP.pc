@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/TA/final_ws/install
+
+Name: CAD_ASR_WITH_OMNI_LENGKAP
+Description: Description of CAD_ASR_WITH_OMNI_LENGKAP
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
