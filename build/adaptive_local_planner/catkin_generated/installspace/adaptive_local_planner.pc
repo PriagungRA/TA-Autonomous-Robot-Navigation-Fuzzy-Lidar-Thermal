@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/TA/final_ws/install
-
-Name: adaptive_local_planner
-Description: Description of adaptive_local_planner
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

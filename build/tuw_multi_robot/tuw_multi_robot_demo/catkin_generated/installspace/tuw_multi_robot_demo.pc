@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/TA/final_ws/install
-
-Name: tuw_multi_robot_demo
-Description: Description of tuw_multi_robot_demo
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

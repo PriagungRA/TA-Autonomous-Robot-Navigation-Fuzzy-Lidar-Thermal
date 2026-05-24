@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/TA/final_ws/devel
-
-Name: tuw_geometry_msgs
-Description: Description of tuw_geometry_msgs
-Version: 0.0.13
-Cflags: -I/home/ubuntu/TA/final_ws/devel/include -I/home/ubuntu/TA/final_ws/src/tuw_msgs/tuw_geometry_msgs/include
-Libs: -L${prefix}/lib -ltuw_geometry_msgs
-Requires: message_runtime std_msgs geometry_msgs

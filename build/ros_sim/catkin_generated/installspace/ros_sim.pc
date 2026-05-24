@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/TA/final_ws/install
-
-Name: ros_sim
-Description: Description of ros_sim
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

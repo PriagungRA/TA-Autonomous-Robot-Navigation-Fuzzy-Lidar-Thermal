@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/TA/final_ws/install
-
-Name: tuw_multi_robot_ctrl
-Description: Description of tuw_multi_robot_ctrl
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib -ltuw_multi_robot_ctrl
-Requires: geometry_msgs roscpp std_msgs
