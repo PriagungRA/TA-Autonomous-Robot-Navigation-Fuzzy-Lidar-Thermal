@@ -1,4 +1,6 @@
-controller_patience: 1.0 
+# [SMOOTH-EDIT] 1.0 -> 3.0 : 1 siklus kontrol jelek tidak langsung
+# memicu recovery (clear costmap/rotate) yang bikin robot berhenti-muter.
+controller_patience: 3.0
 planner_patience: 5.0    
 max_planning_retries: 10  
 
@@ -10,3 +12,9 @@ recovery_behaviors:
     type: 'clear_costmap_recovery/ClearCostmapRecovery'
   - name: 'aggressive_reset'
     type: 'clear_costmap_recovery/ClearCostmapRecovery'
+# [S3-FIX] Kalau robot tidak maju > oscillation_distance dalam
+# oscillation_timeout detik -> trigger recovery, lalu ABORT goal.
+# Tujuannya: trial yang stuck BERAKHIR (tercatat gagal/stuck), tidak
+# menggantung selamanya -> kamu bisa lanjut batch eksperimen.
+oscillation_timeout: 12.0
+oscillation_distance: 0.10

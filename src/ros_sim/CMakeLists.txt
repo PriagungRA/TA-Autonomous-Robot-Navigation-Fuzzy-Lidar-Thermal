@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  sensor_msgs
+  cv_bridge
   tuw_multi_robot_msgs
   nav_core 
   pluginlib
@@ -20,8 +22,8 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 ## System dependencies are found with CMake's conventions
+find_package(OpenCV REQUIRED)
 # find_package(Boost REQUIRED COMPONENTS system)
-
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -124,6 +126,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -135,7 +138,10 @@ add_library(mlpso_planner_lib src/mlpso.cpp)
 target_link_libraries(mlpso_planner_lib ${catkin_LIBRARIES})
 
 add_library(apf src/apf.cpp)
-target_link_libraries(apf ${catkin_LIBRARIES})
+target_link_libraries(apf
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

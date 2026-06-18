@@ -1,0 +1,5 @@
+name,x,y,radius
+obstacle_cat,3.035,0.771,0.18
+obstacle_human_1,3.421,1.633,0.25
+obstacle_human_2,5.28,3.654,0.25
+obstacle,2.466,1.273,0.25

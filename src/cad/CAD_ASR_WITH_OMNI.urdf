@@ -20,8 +20,15 @@
     </link>
     <link name="base_link">
         <inertial>
-            <origin xyz="8.09303135776253e-06 0.5234979845352206 -0.05361397990677252" rpy="0.0 0.0 0.0" />
-            <mass value="5.0" /> <inertia ixx="29.641982413848027" iyy="10.42719878405808" izz="33.33005849408673" ixy="-0.0061114580560509175" iyz="1.9269172799311298" ixz="-0.0011825943316000293" />
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+            <mass value="5.0" /> 
+            <inertia
+                ixx="2.0"
+                iyy="2.0"
+                izz="0.5"
+                ixy="0"
+                iyz="0"
+                ixz="0"/>
         </inertial>
         <visual name="base_link_visual">
             <origin xyz="0.0 0.0 0.0" rpy="0.0 -1.57 0.0" />
@@ -36,23 +43,9 @@
             </geometry>
         </collision> -->
         <collision name="deck_collision">
-            <origin xyz="0.0 0.0 -0.05" rpy="0.0 0.0 0.0" /> 
+            <origin xyz="0.0 0.0 0.05" rpy="0.0 0.0 0.0" /> 
             <geometry>
-                <box size="0.4 0.4 0.15" /> 
-            </geometry>
-        </collision>
-
-        <collision name="left_blinder_collision">
-            <origin xyz="0.097 0.332 0.275" rpy="0.0 0.0 0.0" /> 
-            <geometry>
-                <box size="0.305 0.02 0.3" /> 
-            </geometry>
-        </collision>
-
-        <collision name="right_blinder_collision">
-            <origin xyz="0.097 0.332 -0.275" rpy="0.0 0.0 0.0" />
-            <geometry>
-                <box size="0.305 0.02 0.3" />
+                <box size="0.3 0.3 0.1" /> 
             </geometry>
         </collision>
     </link>
@@ -62,13 +55,13 @@
             <mass value="0.1" /> <inertia ixx="0.0017847772333308143" iyy="0.0017574405415030497" izz="8.717941511160454e-05" ixy="1.8041124150158794e-15" iyz="-1.249000902703301e-16" ixz="3.469446951953614e-17" />
         </inertial>
         <visual name="camera_link_visual">
-            <origin xyz="0.17144619116162588 0.6989999965022059 1.9155375241695083e-05" rpy="-3.141592653589793 -1.5707963267948961 0" />
+            <origin xyz="0.17144619116162588 0.6989999965022059 1.9155375241695083e-05" rpy="-3.141592653589793 0 0" />
             <geometry>
                 <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/camera_link.stl" scale="0.001 0.001 0.001" />
             </geometry>
         </visual>
         <collision name="camera_link_collision">
-            <origin xyz="0.17144619116162588 0.6989999965022059 1.9155375241695083e-05" rpy="-3.141592653589793 -1.5707963267948961 0" />
+            <origin xyz="0.17144619116162588 0.6989999965022059 1.9155375241695083e-05" rpy="-3.141592653589793 0 0" />
             <geometry>
                 <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/camera_link.stl" scale="0.001 0.001 0.001" />
             </geometry>
@@ -107,9 +100,9 @@
             </geometry>
         </visual>
         <collision name="wheel_front_collision">
-            <origin xyz="-0.5602084721407106 0.8835905591682974 1.156575786254166e-09" rpy="3.141592653589793 3.885780586188047e-16 1.808329325355686e-16" />
+            <origin xyz="0.0 0.0 0.0" rpy="1.57 0 0" />
             <geometry>
-                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_front.stl" scale="0.001 0.001 0.001" />
+                <cylinder radius="0.04" length="0.05" />
             </geometry>
         </collision>
     </link>
@@ -125,9 +118,9 @@
             </geometry>
         </visual>
         <collision name="wheel_back_right_collision">
-            <origin xyz="0.1899002699999999 0.1514542900000001 -0.30652545999999997" rpy="-3.141592653589793 -9.069329651181517e-32 1.1405732311823947e-16" />
+            <origin xyz="0.0 0.0 0.0" rpy="1.57 0 0" />
             <geometry>
-                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_back_right.stl" scale="0.001 0.001 0.001" />
+                <cylinder radius="0.04" length="0.05" />
             </geometry>
         </collision>
     </link>
@@ -143,25 +136,28 @@
             </geometry>
         </visual>
         <collision name="wheel_back_left_collision">
-            <origin xyz="0.9269234568509633 0.6916827153692188 -0.07999999655512952" rpy="1.986762121502057e-15 -2.2759572004816013e-15 3.1415926535897927" />
+            <origin xyz="0.0 0.0 0.0" rpy="1.57 0 0" />
             <geometry>
-                <mesh filename="package://CAD_ASR_WITH_OMNI_LENGKAP/meshes/wheel_back_left.stl" scale="0.001 0.001 0.001" />
+                <cylinder radius="0.04" length="0.05" />
             </geometry>
         </collision>
     </link>
     <joint name="base_link_wheel_back_left_to_base_link" type="continuous">
-        <origin xyz="-0.2202118253752416 0.055999996502206474 0.10821198883837659" rpy="9.316995221376523e-16 1.061160185212551 -3.1415926535897922" />
+        <origin xyz="-0.070 0.054 -0.150"
+          rpy="0 0.500000 0"/>
         <parent link="base_link" />
         <child link="wheel_back_left" />
         <axis xyz="-3.3524214765323634e-07 8.72902704520167e-17 1.0000000988419389" />
     </joint>
     <joint name="base_link_wheel_front_to_base_link" type="continuous">
-        <origin xyz="8.51446247581933e-05 0.055999996502206405 -0.27189263116162354" rpy="3.141592653589793 5.551115123125781e-16 1.1405732311823952e-16" />
+        <origin xyz="0.270 0.054 0.000"
+          rpy="0 1.570800 0"/>
         <parent link="base_link" />
         <child link="wheel_front" /> <axis xyz="-9.860761315262648e-32 6.938893903907244e-17 1.0" />
     </joint>
     <joint name="base_link_wheel_back_right_to_base_link" type="continuous">
-        <origin xyz="0.21735475462475834 0.05599896650220654 0.11366768883837633" rpy="-6.405199662469398e-17 -1.043706892692612 -3.141592653589793" />
+        <origin xyz="-0.073 0.054 0.150"
+          rpy="3.141593 0.541593 3.141593"/>
         <parent link="base_link" />
         <child link="wheel_back_right" /> <axis xyz="-5.349509152319243e-08 -1.548462599326932e-16 1.000000198012479" />
     </joint>
@@ -180,7 +176,7 @@
         <parent link="base_link"/>
         <child link="thermal_link"/>
         <origin xyz="0.169931 0.660016 0.0" 
-                rpy="0 0 -0.26"/>
+                rpy="0 0 -0.52"/>
     </joint>
 
     <gazebo>
@@ -226,10 +222,10 @@
             <update_rate>10</update_rate>
             <visualize>true</visualize>
             <camera>
-                <horizontal_fov>1.5707</horizontal_fov>
+                <horizontal_fov>1.57</horizontal_fov>
                 <image>
-                    <width>1280</width>
-                    <height>720</height>
+                    <width>640</width>
+                    <height>480</height>
                     <format>L8</format>
                 </image>
                 <clip>
@@ -241,7 +237,7 @@
                 name="gazebo_ros_thermal_camera"
                 filename="libgazebo_ros_thermal_camera.so">
                 <alwaysOn>true</alwaysOn>
-                <updateRate>20.0</updateRate>
+                <updateRate>5.0</updateRate>
                 <robotNamespace>/thermal</robotNamespace>
                 <cameraName>thermal_camera</cameraName>
                 <imageTopicName>image_raw</imageTopicName>
@@ -276,5 +272,11 @@
         <kd>100.0</kd>
         <minDepth>0.001</minDepth>
         <maxVel>1.0</maxVel>
+    </gazebo>
+
+    <gazebo reference="base_link">
+        <gravity>false</gravity>
+        <kinematic>true</kinematic>
+        <setFrictionPyramid>false</setFrictionPyramid>
     </gazebo>
 </robot>

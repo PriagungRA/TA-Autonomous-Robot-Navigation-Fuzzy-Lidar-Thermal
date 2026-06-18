@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-05-29T00:45:55.460Z",
+  "projectRoot": "/home/ubuntu/TA/final_ws",
+  "structure": {
+    "hasPackageJson": false,
+    "hasTsConfig": false,
+    "hasClaudeConfig": true,
+    "hasClaudeFlow": true
+  },
+  "scannedAt": 1780015555460
+}

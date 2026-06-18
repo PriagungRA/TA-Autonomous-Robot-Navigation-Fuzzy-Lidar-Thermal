@@ -1,0 +1,1570 @@
+name: "CAD_ASR_WITH_OMNI"
+id: 858
+is_static: false
+pose {
+  position {
+    x: 0
+    y: 0
+    z: 0.05
+  }
+  orientation {
+    x: 0
+    y: 0
+    z: 0
+    w: 1
+  }
+}
+joint {
+  name: "CAD_ASR_WITH_OMNI::base_link_wheel_back_left_to_base_link"
+  id: 3056
+  angle: 0.2761107807790939
+  type: REVOLUTE
+  parent: "CAD_ASR_WITH_OMNI::base_link"
+  parent_id: 859
+  child: "CAD_ASR_WITH_OMNI::wheel_back_left"
+  child_id: 3041
+  pose {
+    position {
+      x: 1.9081958235744878e-17
+      y: -6.9388939039072284e-18
+      z: -8.3266726846886741e-17
+    }
+    orientation {
+      x: 0
+      y: 2.5390038942753821e-17
+      z: 5.2939559203393771e-23
+      w: 0.99999999999999989
+    }
+  }
+  axis1 {
+    xyz {
+      x: -0
+      y: 0
+      z: 1
+    }
+    limit_lower: -1e+16
+    limit_upper: 1e+16
+    limit_effort: -1
+    limit_velocity: -1
+    damping: 0
+    friction: 0
+    use_parent_model_frame: false
+    xyz_expressed_in: ""
+  }
+}
+joint {
+  name: "CAD_ASR_WITH_OMNI::base_link_wheel_back_right_to_base_link"
+  id: 3057
+  angle: 0.872297682977969
+  type: REVOLUTE
+  parent: "CAD_ASR_WITH_OMNI::base_link"
+  parent_id: 859
+  child: "CAD_ASR_WITH_OMNI::wheel_back_right"
+  child_id: 3046
+  pose {
+    position {
+      x: -5.0495869150565115e-18
+      y: 6.9388939039072284e-18
+      z: -5.5511151231257827e-17
+    }
+    orientation {
+      x: -8.0779356694631609e-28
+      y: -3.5232633032716315e-23
+      z: 8.0779356694631609e-28
+      w: 1
+    }
+  }
+  axis1 {
+    xyz {
+      x: -0
+      y: -0
+      z: 1
+    }
+    limit_lower: -1e+16
+    limit_upper: 1e+16
+    limit_effort: -1
+    limit_velocity: -1
+    damping: 0
+    friction: 0
+    use_parent_model_frame: false
+    xyz_expressed_in: ""
+  }
+}
+joint {
+  name: "CAD_ASR_WITH_OMNI::base_link_wheel_front_to_base_link"
+  id: 3058
+  angle: 0
+  type: REVOLUTE
+  parent: "CAD_ASR_WITH_OMNI::base_link"
+  parent_id: 859
+  child: "CAD_ASR_WITH_OMNI::wheel_front"
+  child_id: 3051
+  pose {
+    position {
+      x: 1.214306433183765e-17
+      y: 0
+      z: -2.7755575615628914e-17
+    }
+    orientation {
+      x: 0
+      y: 0
+      z: 0
+      w: 0.99999999999999989
+    }
+  }
+  axis1 {
+    xyz {
+      x: -0
+      y: 0
+      z: 1
+    }
+    limit_lower: -1e+16
+    limit_upper: 1e+16
+    limit_effort: -1
+    limit_velocity: -1
+    damping: 0
+    friction: 0
+    use_parent_model_frame: false
+    xyz_expressed_in: ""
+  }
+}
+link {
+  id: 859
+  name: "CAD_ASR_WITH_OMNI::base_link"
+  self_collide: false
+  gravity: false
+  kinematic: true
+  enabled: true
+  inertial {
+    mass: 5.4
+    pose {
+      position {
+        x: 0.008572
+        y: 0.038835
+        z: -0.003368
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+      }
+    }
+    ixx: 2.11531
+    ixy: -0.020449
+    ixz: -0.000156584
+    iyy: 2.01347
+    iyz: 0.0117337
+    izz: 0.62054
+  }
+  pose {
+    position {
+      x: 0
+      y: 0
+      z: 0
+    }
+    orientation {
+      x: 0
+      y: 0
+      z: 0
+      w: 1
+    }
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::base_link"
+    id: 859
+    parent_name: "CAD_ASR_WITH_OMNI"
+    parent_id: 858
+    pose {
+      position {
+        x: 0
+        y: 0
+        z: 0
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+      }
+    }
+    type: LINK
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::base_link::base_link_visual_visual"
+    id: 860
+    parent_name: "CAD_ASR_WITH_OMNI::base_link"
+    parent_id: 859
+    pose {
+      position {
+        x: 0
+        y: 0
+        z: 0
+      }
+      orientation {
+        x: 0
+        y: -0.70710807985947366
+        z: 0
+        w: 0.70710548251123639
+      }
+    }
+    geometry {
+      type: MESH
+      mesh {
+        filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/base_link.stl"
+        scale {
+          x: 0.001
+          y: 0.001
+          z: 0.001
+        }
+      }
+    }
+    is_static: false
+    scale {
+      x: 1
+      y: 1
+      z: 1
+    }
+    type: VISUAL
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__laser_visual_visual_1"
+    id: 861
+    parent_name: "CAD_ASR_WITH_OMNI::base_link"
+    parent_id: 859
+    pose {
+      position {
+        x: 0.1465
+        y: 0.028883
+        z: 0.146235
+      }
+      orientation {
+        x: 0.00039799998949253479
+        y: 0
+        z: 0
+        w: 0.999999920798001
+      }
+    }
+    geometry {
+      type: MESH
+      mesh {
+        filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/laser.stl"
+        scale {
+          x: 0.001
+          y: 0.001
+          z: 0.001
+        }
+      }
+    }
+    is_static: false
+    scale {
+      x: 1
+      y: 1
+      z: 1
+    }
+    type: VISUAL
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__camera_link_visual_visual_2"
+    id: 862
+    parent_name: "CAD_ASR_WITH_OMNI::base_link"
+    parent_id: 859
+    pose {
+      position {
+        x: 0
+        y: 0
+        z: 0
+      }
+      orientation {
+        x: 0
+        y: -0.70710807985947366
+        z: 0
+        w: 0.70710548251123639
+      }
+    }
+    geometry {
+      type: MESH
+      mesh {
+        filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/camera_link.stl"
+        scale {
+          x: 0.001
+          y: 0.001
+          z: 0.001
+        }
+      }
+    }
+    is_static: false
+    scale {
+      x: 1
+      y: 1
+      z: 1
+    }
+    type: VISUAL
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__thermal_link_visual_3"
+    id: 863
+    parent_name: "CAD_ASR_WITH_OMNI::base_link"
+    parent_id: 859
+    pose {
+      position {
+        x: 0.169931
+        y: 0.660016
+        z: 0
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: -0.25708055189215512
+        w: 0.96638997813451322
+      }
+    }
+    geometry {
+      type: BOX
+      box {
+        size {
+          x: 0.02
+          y: 0.02
+          z: 0.02
+        }
+      }
+    }
+    is_static: false
+    scale {
+      x: 1
+      y: 1
+      z: 1
+    }
+    type: VISUAL
+  }
+  collision {
+    id: 864
+    name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__deck_collision_collision"
+    laser_retro: 0
+    pose {
+      position {
+        x: 0
+        y: -1
+        z: 0
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+      }
+    }
+    geometry {
+      type: BOX
+      box {
+        size {
+          x: 0.3
+          y: 0.3
+          z: 0.1
+        }
+      }
+    }
+    surface {
+      friction {
+        mu: 1
+        mu2: 1
+        fdir1 {
+          x: 0
+          y: 0
+          z: 0
+        }
+        slip1: 0
+        slip2: 0
+        torsional {
+          coefficient: 1
+          use_patch_radius: true
+          patch_radius: 0
+          surface_radius: 0
+          ode {
+            slip: 0
+          }
+        }
+      }
+      restitution_coefficient: 0
+      bounce_threshold: 100000
+      soft_cfm: 0
+      soft_erp: 0.2
+      kp: 1000000000000
+      kd: 1
+      max_vel: 0.01
+      min_depth: 0
+      collide_without_contact: false
+      collide_without_contact_bitmask: 1
+      collide_bitmask: 65535
+      elastic_modulus: 0
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__deck_collision_collision"
+      id: 864
+      parent_name: "CAD_ASR_WITH_OMNI::base_link"
+      parent_id: 859
+      pose {
+        position {
+          x: 0
+          y: -1
+          z: 0
+        }
+        orientation {
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+        }
+      }
+      type: COLLISION
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__deck_collision_collision__COLLISION_VISUAL__"
+      id: 865
+      parent_name: "CAD_ASR_WITH_OMNI::base_link"
+      parent_id: 859
+      cast_shadows: false
+      pose {
+        position {
+          x: 0
+          y: -1
+          z: 0
+        }
+        orientation {
+          x: 0
+          y: 0
+          z: 0
+          w: 1
+        }
+      }
+      geometry {
+        type: BOX
+        box {
+          size {
+            x: 0.3
+            y: 0.3
+            z: 0.1
+          }
+        }
+      }
+      material {
+        script {
+          uri: "file://media/materials/scripts/gazebo.material"
+          name: "Gazebo/OrangeTransparent"
+        }
+      }
+      is_static: false
+      type: COLLISION
+    }
+  }
+  collision {
+    id: 867
+    name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__laser_collision_collision_1"
+    laser_retro: 0
+    pose {
+      position {
+        x: 0.1465
+        y: 0.028883
+        z: 0.146235
+      }
+      orientation {
+        x: 0.00039799998949253479
+        y: 0
+        z: 0
+        w: 0.999999920798001
+      }
+    }
+    geometry {
+      type: MESH
+      mesh {
+        filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/laser.stl"
+        scale {
+          x: 0.001
+          y: 0.001
+          z: 0.001
+        }
+      }
+    }
+    surface {
+      friction {
+        mu: 1
+        mu2: 1
+        fdir1 {
+          x: 0
+          y: 0
+          z: 0
+        }
+        slip1: 0
+        slip2: 0
+        torsional {
+          coefficient: 1
+          use_patch_radius: true
+          patch_radius: 0
+          surface_radius: 0
+          ode {
+            slip: 0
+          }
+        }
+      }
+      restitution_coefficient: 0
+      bounce_threshold: 100000
+      soft_cfm: 0
+      soft_erp: 0.2
+      kp: 1000000000000
+      kd: 1
+      max_vel: 0.01
+      min_depth: 0
+      collide_without_contact: false
+      collide_without_contact_bitmask: 1
+      collide_bitmask: 65535
+      elastic_modulus: 0
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__laser_collision_collision_1"
+      id: 867
+      parent_name: "CAD_ASR_WITH_OMNI::base_link"
+      parent_id: 859
+      pose {
+        position {
+          x: 0.1465
+          y: 0.028883
+          z: 0.146235
+        }
+        orientation {
+          x: 0.00039799998949253479
+          y: 0
+          z: 0
+          w: 0.999999920798001
+        }
+      }
+      type: COLLISION
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__laser_collision_collision_1__COLLISION_VISUAL__"
+      id: 868
+      parent_name: "CAD_ASR_WITH_OMNI::base_link"
+      parent_id: 859
+      cast_shadows: false
+      pose {
+        position {
+          x: 0.1465
+          y: 0.028883
+          z: 0.146235
+        }
+        orientation {
+          x: 0.00039799998949253479
+          y: 0
+          z: 0
+          w: 0.999999920798001
+        }
+      }
+      geometry {
+        type: MESH
+        mesh {
+          filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/laser.stl"
+          scale {
+            x: 0.001
+            y: 0.001
+            z: 0.001
+          }
+        }
+      }
+      material {
+        script {
+          uri: "file://media/materials/scripts/gazebo.material"
+          name: "Gazebo/OrangeTransparent"
+        }
+      }
+      is_static: false
+      type: COLLISION
+    }
+  }
+  collision {
+    id: 870
+    name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__camera_link_collision_collision_2"
+    laser_retro: 0
+    pose {
+      position {
+        x: 0
+        y: 0
+        z: 0
+      }
+      orientation {
+        x: 0
+        y: -0.70710807985947366
+        z: 0
+        w: 0.70710548251123639
+      }
+    }
+    geometry {
+      type: MESH
+      mesh {
+        filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/camera_link.stl"
+        scale {
+          x: 0.001
+          y: 0.001
+          z: 0.001
+        }
+      }
+    }
+    surface {
+      friction {
+        mu: 1
+        mu2: 1
+        fdir1 {
+          x: 0
+          y: 0
+          z: 0
+        }
+        slip1: 0
+        slip2: 0
+        torsional {
+          coefficient: 1
+          use_patch_radius: true
+          patch_radius: 0
+          surface_radius: 0
+          ode {
+            slip: 0
+          }
+        }
+      }
+      restitution_coefficient: 0
+      bounce_threshold: 100000
+      soft_cfm: 0
+      soft_erp: 0.2
+      kp: 1000000000000
+      kd: 1
+      max_vel: 0.01
+      min_depth: 0
+      collide_without_contact: false
+      collide_without_contact_bitmask: 1
+      collide_bitmask: 65535
+      elastic_modulus: 0
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__camera_link_collision_collision_2"
+      id: 870
+      parent_name: "CAD_ASR_WITH_OMNI::base_link"
+      parent_id: 859
+      pose {
+        position {
+          x: 0
+          y: 0
+          z: 0
+        }
+        orientation {
+          x: 0
+          y: -0.70710807985947366
+          z: 0
+          w: 0.70710548251123639
+        }
+      }
+      type: COLLISION
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__camera_link_collision_collision_2__COLLISION_VISUAL__"
+      id: 871
+      parent_name: "CAD_ASR_WITH_OMNI::base_link"
+      parent_id: 859
+      cast_shadows: false
+      pose {
+        position {
+          x: 0
+          y: 0
+          z: 0
+        }
+        orientation {
+          x: 0
+          y: -0.70710807985947366
+          z: 0
+          w: 0.70710548251123639
+        }
+      }
+      geometry {
+        type: MESH
+        mesh {
+          filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/camera_link.stl"
+          scale {
+            x: 0.001
+            y: 0.001
+            z: 0.001
+          }
+        }
+      }
+      material {
+        script {
+          uri: "file://media/materials/scripts/gazebo.material"
+          name: "Gazebo/OrangeTransparent"
+        }
+      }
+      is_static: false
+      type: COLLISION
+    }
+  }
+  collision {
+    id: 873
+    name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__thermal_link_collision_3"
+    laser_retro: 0
+    pose {
+      position {
+        x: 0.169931
+        y: 0.660016
+        z: 0
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: -0.25708055189215512
+        w: 0.96638997813451322
+      }
+    }
+    geometry {
+      type: BOX
+      box {
+        size {
+          x: 0.02
+          y: 0.02
+          z: 0.02
+        }
+      }
+    }
+    surface {
+      friction {
+        mu: 1
+        mu2: 1
+        fdir1 {
+          x: 0
+          y: 0
+          z: 0
+        }
+        slip1: 0
+        slip2: 0
+        torsional {
+          coefficient: 1
+          use_patch_radius: true
+          patch_radius: 0
+          surface_radius: 0
+          ode {
+            slip: 0
+          }
+        }
+      }
+      restitution_coefficient: 0
+      bounce_threshold: 100000
+      soft_cfm: 0
+      soft_erp: 0.2
+      kp: 1000000000000
+      kd: 1
+      max_vel: 0.01
+      min_depth: 0
+      collide_without_contact: false
+      collide_without_contact_bitmask: 1
+      collide_bitmask: 65535
+      elastic_modulus: 0
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__thermal_link_collision_3"
+      id: 873
+      parent_name: "CAD_ASR_WITH_OMNI::base_link"
+      parent_id: 859
+      pose {
+        position {
+          x: 0.169931
+          y: 0.660016
+          z: 0
+        }
+        orientation {
+          x: 0
+          y: 0
+          z: -0.25708055189215512
+          w: 0.96638997813451322
+        }
+      }
+      type: COLLISION
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::base_link::base_link_fixed_joint_lump__thermal_link_collision_3__COLLISION_VISUAL__"
+      id: 874
+      parent_name: "CAD_ASR_WITH_OMNI::base_link"
+      parent_id: 859
+      cast_shadows: false
+      pose {
+        position {
+          x: 0.169931
+          y: 0.660016
+          z: 0
+        }
+        orientation {
+          x: 0
+          y: 0
+          z: -0.25708055189215512
+          w: 0.96638997813451322
+        }
+      }
+      geometry {
+        type: BOX
+        box {
+          size {
+            x: 0.02
+            y: 0.02
+            z: 0.02
+          }
+        }
+      }
+      material {
+        script {
+          uri: "file://media/materials/scripts/gazebo.material"
+          name: "Gazebo/OrangeTransparent"
+        }
+      }
+      is_static: false
+      type: COLLISION
+    }
+  }
+  sensor {
+    name: "head_hokuyo_sensor"
+    parent: "CAD_ASR_WITH_OMNI::base_link"
+    parent_id: 859
+    type: "ray"
+    update_rate: 40
+    pose {
+      position {
+        x: 0.1465
+        y: 0.362
+        z: 0
+      }
+      orientation {
+        x: -0.706825181105366
+        y: 0
+        z: 0
+        w: 0.70738826916719977
+      }
+    }
+    ray {
+      horizontal_samples: 720
+      horizontal_resolution: 1
+      horizontal_min_angle: -3.14159
+      horizontal_max_angle: 3.14159
+      vertical_samples: 1
+      vertical_resolution: 1
+      vertical_min_angle: 0
+      vertical_max_angle: 0
+      range_min: 0.05
+      range_max: 12
+      range_resolution: 0.01
+    }
+    visualize: true
+  }
+  sensor {
+    name: "thermal_camera"
+    parent: "CAD_ASR_WITH_OMNI::base_link"
+    parent_id: 859
+    type: "camera"
+    always_on: true
+    update_rate: 10
+    pose {
+      position {
+        x: 0.169931
+        y: 0.660016
+        z: 0
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: -0.25708055189215512
+        w: 0.96638997813451322
+      }
+    }
+    camera {
+      horizontal_fov: 1.57
+      image_size {
+        x: 640
+        y: 480
+      }
+      image_format: "L8"
+      near_clip: 0.1
+      far_clip: 100
+    }
+    visualize: true
+  }
+  canonical: true
+  enable_wind: false
+}
+link {
+  id: 3041
+  name: "CAD_ASR_WITH_OMNI::wheel_back_left"
+  self_collide: false
+  gravity: true
+  kinematic: false
+  enabled: true
+  inertial {
+    mass: 0.5
+    pose {
+      position {
+        x: 0
+        y: -0
+        z: -0.04
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: 0
+        w: 1
+      }
+    }
+    ixx: 0.0267605
+    ixy: 9.4615e-14
+    ixz: -2.65014e-14
+    iyy: 0.0267605
+    iyz: -5.17327e-14
+    izz: 0.0403813
+  }
+  pose {
+    position {
+      x: -0.073175286917627869
+      y: 0.046622296931862789
+      z: 0.15565491396067876
+    }
+    orientation {
+      x: 0.10621985261653032
+      y: 0.96672078947805851
+      z: 0.074369382268466275
+      w: 0.22053900580633998
+    }
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::wheel_back_left"
+    id: 3041
+    parent_name: "CAD_ASR_WITH_OMNI"
+    parent_id: 858
+    pose {
+      position {
+        x: -0.073175286917627869
+        y: 0.046622296931862789
+        z: 0.15565491396067876
+      }
+      orientation {
+        x: 0.10621985261653032
+        y: 0.96672078947805851
+        z: 0.074369382268466275
+        w: 0.22053900580633998
+      }
+    }
+    type: LINK
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::wheel_back_left::wheel_back_left_visual_visual"
+    id: 3042
+    parent_name: "CAD_ASR_WITH_OMNI::wheel_back_left"
+    parent_id: 3041
+    pose {
+      position {
+        x: 0.92692300000000016
+        y: 0.691683
+        z: -0.08000000000000014
+      }
+      orientation {
+        x: 2.5390038942731474e-17
+        y: 3.3687374095689588e-23
+        z: 0.9999999999991197
+        w: 1.3267948966775326e-06
+      }
+    }
+    geometry {
+      type: MESH
+      mesh {
+        filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/wheel_back_left.stl"
+        scale {
+          x: 0.001
+          y: 0.001
+          z: 0.001
+        }
+      }
+    }
+    is_static: false
+    scale {
+      x: 1
+      y: 1
+      z: 1
+    }
+    type: VISUAL
+  }
+  collision {
+    id: 3043
+    name: "CAD_ASR_WITH_OMNI::wheel_back_left::wheel_back_left_collision_collision"
+    laser_retro: 0
+    pose {
+      position {
+        x: 0.92692300000000016
+        y: 0.691683
+        z: -0.08000000000000014
+      }
+      orientation {
+        x: 0.70682518110536585
+        y: 1.7960653120815946e-17
+        z: -1.7946281425161108e-17
+        w: 0.70738826916719966
+      }
+    }
+    geometry {
+      type: CYLINDER
+      cylinder {
+        radius: 0.04
+        length: 0.05
+      }
+    }
+    surface {
+      friction {
+        mu: 1
+        mu2: 0
+        fdir1 {
+          x: 0
+          y: 0
+          z: 0
+        }
+        slip1: 0
+        slip2: 0
+        torsional {
+          coefficient: 1
+          use_patch_radius: true
+          patch_radius: 0
+          surface_radius: 0
+          ode {
+            slip: 0
+          }
+        }
+      }
+      restitution_coefficient: 0
+      bounce_threshold: 100000
+      soft_cfm: 0
+      soft_erp: 0.2
+      kp: 1000000
+      kd: 100
+      max_vel: 1
+      min_depth: 0.001
+      collide_without_contact: false
+      collide_without_contact_bitmask: 1
+      collide_bitmask: 65535
+      elastic_modulus: 0
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::wheel_back_left::wheel_back_left_collision_collision"
+      id: 3043
+      parent_name: "CAD_ASR_WITH_OMNI::wheel_back_left"
+      parent_id: 3041
+      pose {
+        position {
+          x: 0.92692300000000016
+          y: 0.691683
+          z: -0.08000000000000014
+        }
+        orientation {
+          x: 0.70682518110536585
+          y: 1.7960653120815946e-17
+          z: -1.7946281425161108e-17
+          w: 0.70738826916719966
+        }
+      }
+      type: COLLISION
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::wheel_back_left::wheel_back_left_collision_collision__COLLISION_VISUAL__"
+      id: 3044
+      parent_name: "CAD_ASR_WITH_OMNI::wheel_back_left"
+      parent_id: 3041
+      cast_shadows: false
+      pose {
+        position {
+          x: 0.92692300000000016
+          y: 0.691683
+          z: -0.08000000000000014
+        }
+        orientation {
+          x: 0.70682518110536585
+          y: 1.7960653120815946e-17
+          z: -1.7946281425161108e-17
+          w: 0.70738826916719966
+        }
+      }
+      geometry {
+        type: CYLINDER
+        cylinder {
+          radius: 0.04
+          length: 0.05
+        }
+      }
+      material {
+        script {
+          uri: "file://media/materials/scripts/gazebo.material"
+          name: "Gazebo/OrangeTransparent"
+        }
+      }
+      is_static: false
+      type: COLLISION
+    }
+  }
+  enable_wind: false
+}
+link {
+  id: 3046
+  name: "CAD_ASR_WITH_OMNI::wheel_back_right"
+  self_collide: false
+  gravity: true
+  kinematic: false
+  enabled: true
+  inertial {
+    mass: 0.5
+    pose {
+      position {
+        x: 0
+        y: -0
+        z: -0.04
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: -0
+        w: 1
+      }
+    }
+    ixx: 0.0267605
+    ixy: -5.55112e-17
+    ixz: 8.92968e-17
+    iyy: 0.0267605
+    iyz: -1.10077e-16
+    izz: 0.0403813
+  }
+  pose {
+    position {
+      x: 0.26999999999999996
+      y: 0.054000000000000013
+      z: 0
+    }
+    orientation {
+      x: 0.29871959978296192
+      y: 0.64091322665627337
+      z: 0.29871770985130114
+      w: 0.64090917174256867
+    }
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::wheel_back_right"
+    id: 3046
+    parent_name: "CAD_ASR_WITH_OMNI"
+    parent_id: 858
+    pose {
+      position {
+        x: 0.26999999999999996
+        y: 0.054000000000000013
+        z: 0
+      }
+      orientation {
+        x: 0.29871959978296192
+        y: 0.64091322665627337
+        z: 0.29871770985130114
+        w: 0.64090917174256867
+      }
+    }
+    type: LINK
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::wheel_back_right::wheel_back_right_visual_visual"
+    id: 3047
+    parent_name: "CAD_ASR_WITH_OMNI::wheel_back_right"
+    parent_id: 3046
+    pose {
+      position {
+        x: 0.1899
+        y: 0.151454
+        z: -0.30652500000000005
+      }
+      orientation {
+        x: -0.99999999999911982
+        y: -8.5454004464992539e-28
+        z: -3.5232633031613531e-23
+        w: 1.3267948966775328e-06
+      }
+    }
+    geometry {
+      type: MESH
+      mesh {
+        filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/wheel_back_right.stl"
+        scale {
+          x: 0.001
+          y: 0.001
+          z: 0.001
+        }
+      }
+    }
+    is_static: false
+    scale {
+      x: 1
+      y: 1
+      z: 1
+    }
+    type: VISUAL
+  }
+  collision {
+    id: 3048
+    name: "CAD_ASR_WITH_OMNI::wheel_back_right::wheel_back_right_collision_collision"
+    laser_retro: 0
+    pose {
+      position {
+        x: 0.1899
+        y: 0.151454
+        z: -0.30652500000000005
+      }
+      orientation {
+        x: 0.706825181105366
+        y: -2.4922580330382049e-23
+        z: 2.4903883647861775e-23
+        w: 0.70738826916719977
+      }
+    }
+    geometry {
+      type: CYLINDER
+      cylinder {
+        radius: 0.04
+        length: 0.05
+      }
+    }
+    surface {
+      friction {
+        mu: 1
+        mu2: 0
+        fdir1 {
+          x: 0
+          y: 0
+          z: 0
+        }
+        slip1: 0
+        slip2: 0
+        torsional {
+          coefficient: 1
+          use_patch_radius: true
+          patch_radius: 0
+          surface_radius: 0
+          ode {
+            slip: 0
+          }
+        }
+      }
+      restitution_coefficient: 0
+      bounce_threshold: 100000
+      soft_cfm: 0
+      soft_erp: 0.2
+      kp: 1000000
+      kd: 100
+      max_vel: 1
+      min_depth: 0.001
+      collide_without_contact: false
+      collide_without_contact_bitmask: 1
+      collide_bitmask: 65535
+      elastic_modulus: 0
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::wheel_back_right::wheel_back_right_collision_collision"
+      id: 3048
+      parent_name: "CAD_ASR_WITH_OMNI::wheel_back_right"
+      parent_id: 3046
+      pose {
+        position {
+          x: 0.1899
+          y: 0.151454
+          z: -0.30652500000000005
+        }
+        orientation {
+          x: 0.706825181105366
+          y: -2.4922580330382049e-23
+          z: 2.4903883647861775e-23
+          w: 0.70738826916719977
+        }
+      }
+      type: COLLISION
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::wheel_back_right::wheel_back_right_collision_collision__COLLISION_VISUAL__"
+      id: 3049
+      parent_name: "CAD_ASR_WITH_OMNI::wheel_back_right"
+      parent_id: 3046
+      cast_shadows: false
+      pose {
+        position {
+          x: 0.1899
+          y: 0.151454
+          z: -0.30652500000000005
+        }
+        orientation {
+          x: 0.706825181105366
+          y: -2.4922580330382049e-23
+          z: 2.4903883647861775e-23
+          w: 0.70738826916719977
+        }
+      }
+      geometry {
+        type: CYLINDER
+        cylinder {
+          radius: 0.04
+          length: 0.05
+        }
+      }
+      material {
+        script {
+          uri: "file://media/materials/scripts/gazebo.material"
+          name: "Gazebo/OrangeTransparent"
+        }
+      }
+      is_static: false
+      type: COLLISION
+    }
+  }
+  enable_wind: false
+}
+link {
+  id: 3051
+  name: "CAD_ASR_WITH_OMNI::wheel_front"
+  self_collide: false
+  gravity: true
+  kinematic: false
+  enabled: true
+  inertial {
+    mass: 0.5
+    pose {
+      position {
+        x: 0
+        y: 0
+        z: -0.04
+      }
+      orientation {
+        x: 0
+        y: 0
+        z: -0
+        w: 1
+      }
+    }
+    ixx: 0.0267605
+    ixy: 1.02979e-16
+    ixz: 9.61037e-16
+    iyy: 0.0267605
+    iyz: 1.22799e-15
+    izz: 0.0403813
+  }
+  pose {
+    position {
+      x: -0.07
+      y: 0.054
+      z: -0.14999999999999997
+    }
+    orientation {
+      x: 3.1276256512878906e-31
+      y: 0.24740395925452296
+      z: 1.2248774648251261e-30
+      w: 0.96891242171064484
+    }
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::wheel_front"
+    id: 3051
+    parent_name: "CAD_ASR_WITH_OMNI"
+    parent_id: 858
+    pose {
+      position {
+        x: -0.07
+        y: 0.054
+        z: -0.14999999999999997
+      }
+      orientation {
+        x: 3.1276256512878906e-31
+        y: 0.24740395925452296
+        z: 1.2248774648251261e-30
+        w: 0.96891242171064484
+      }
+    }
+    type: LINK
+  }
+  visual {
+    name: "CAD_ASR_WITH_OMNI::wheel_front::wheel_front_visual_visual"
+    id: 3052
+    parent_name: "CAD_ASR_WITH_OMNI::wheel_front"
+    parent_id: 3051
+    pose {
+      position {
+        x: -0.560208
+        y: 0.88359100000000013
+        z: -2.7755575615628914e-17
+      }
+      orientation {
+        x: 0.9999999999991197
+        y: 0
+        z: 0
+        w: 1.3267948966775326e-06
+      }
+    }
+    geometry {
+      type: MESH
+      mesh {
+        filename: "/home/ubuntu/TA/final_ws/src/cad/meshes/wheel_front.stl"
+        scale {
+          x: 0.001
+          y: 0.001
+          z: 0.001
+        }
+      }
+    }
+    is_static: false
+    scale {
+      x: 1
+      y: 1
+      z: 1
+    }
+    type: VISUAL
+  }
+  collision {
+    id: 3053
+    name: "CAD_ASR_WITH_OMNI::wheel_front::wheel_front_collision_collision"
+    laser_retro: 0
+    pose {
+      position {
+        x: -0.560208
+        y: 0.88359100000000013
+        z: -2.7755575615628914e-17
+      }
+      orientation {
+        x: 0.70682518110536585
+        y: 0
+        z: 0
+        w: 0.70738826916719966
+      }
+    }
+    geometry {
+      type: CYLINDER
+      cylinder {
+        radius: 0.04
+        length: 0.05
+      }
+    }
+    surface {
+      friction {
+        mu: 1
+        mu2: 0
+        fdir1 {
+          x: 0
+          y: 0
+          z: 0
+        }
+        slip1: 0
+        slip2: 0
+        torsional {
+          coefficient: 1
+          use_patch_radius: true
+          patch_radius: 0
+          surface_radius: 0
+          ode {
+            slip: 0
+          }
+        }
+      }
+      restitution_coefficient: 0
+      bounce_threshold: 100000
+      soft_cfm: 0
+      soft_erp: 0.2
+      kp: 1000000
+      kd: 100
+      max_vel: 1
+      min_depth: 0.001
+      collide_without_contact: false
+      collide_without_contact_bitmask: 1
+      collide_bitmask: 65535
+      elastic_modulus: 0
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::wheel_front::wheel_front_collision_collision"
+      id: 3053
+      parent_name: "CAD_ASR_WITH_OMNI::wheel_front"
+      parent_id: 3051
+      pose {
+        position {
+          x: -0.560208
+          y: 0.88359100000000013
+          z: -2.7755575615628914e-17
+        }
+        orientation {
+          x: 0.70682518110536585
+          y: 0
+          z: 0
+          w: 0.70738826916719966
+        }
+      }
+      type: COLLISION
+    }
+    visual {
+      name: "CAD_ASR_WITH_OMNI::wheel_front::wheel_front_collision_collision__COLLISION_VISUAL__"
+      id: 3054
+      parent_name: "CAD_ASR_WITH_OMNI::wheel_front"
+      parent_id: 3051
+      cast_shadows: false
+      pose {
+        position {
+          x: -0.560208
+          y: 0.88359100000000013
+          z: -2.7755575615628914e-17
+        }
+        orientation {
+          x: 0.70682518110536585
+          y: 0
+          z: 0
+          w: 0.70738826916719966
+        }
+      }
+      geometry {
+        type: CYLINDER
+        cylinder {
+          radius: 0.04
+          length: 0.05
+        }
+      }
+      material {
+        script {
+          uri: "file://media/materials/scripts/gazebo.material"
+          name: "Gazebo/OrangeTransparent"
+        }
+      }
+      is_static: false
+      type: COLLISION
+    }
+  }
+  enable_wind: false
+}
+visual {
+  name: "CAD_ASR_WITH_OMNI"
+  id: 858
+  parent_name: "default"
+  parent_id: 1
+  pose {
+    position {
+      x: 0
+      y: 0
+      z: 0.05
+    }
+    orientation {
+      x: 0
+      y: 0
+      z: 0
+      w: 1
+    }
+  }
+  type: MODEL
+}
+scale {
+  x: 1
+  y: 1
+  z: 1
+}
+self_collide: false
+enable_wind: false
+plugin {
+  name: "object_controller"
+  filename: "libgazebo_ros_planar_move.so"
+  innerxml: "<commandTopic>cmd_vel</commandTopic>\n<odometryTopic>odom</odometryTopic>\n<odometryFrame>odom</odometryFrame>\n<odometryRate>20.0</odometryRate>\n<robotBaseFrame>base_link</robotBaseFrame>\n<robotNamespace>/</robotNamespace>\n"
+}
+

@@ -1,9 +1,9 @@
 PFLocalPlanner:
   # APF Core Gains
-  attractive_gain: 1.5
-  repulsive_gain: 3.0
-  safe_obs_dist: 1.2
-  safe_goal_dist: 1.0
+  attractive_gain: 1.8
+  repulsive_gain: 0.8
+  safe_obs_dist: 0.25
+  safe_goal_dist: 0.35
 
   # # Safety parameters (Adjusted for slow-medium speed)
   # emergency_stop_dist: 0.35
@@ -19,7 +19,7 @@ PFLocalPlanner:
   
   # Robot Setup
   # robot_radius: 0.4
-  robot_radius: 0.22
+  robot_radius: 0.2
   cmd_frame_id: "base_link"
   goal_frame_id: "map"
   scan_topic: "/scan" # Remember to change this if your omni robot uses a different lidar topic!

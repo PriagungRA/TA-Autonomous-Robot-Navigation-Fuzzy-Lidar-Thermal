@@ -1,9 +1,38 @@
 <launch>
-  <arg name="map_file" default="$(find asr_navigation)/maps/grit_1_edited_2.yaml"/>
+  <!--
+       NAV SIM - STRUKTUR 8 SKENARIO
+       Pakai:  roslaunch ros_sim nav_sim.launch scenario:=S3
+
+       S1-S4 = NON-FUZZY (fusi sensor biasa, baseline)
+       S5-S8 = FUZZY      (fuzzy membantu APF)
+
+         scenario | world                    | obstacle           | fuzzy
+         S1 / S5  | S1_open.world            | tanpa obstacle     | no/yes
+         S2 / S6  | S2_single_human.world    | 1 obstacle         | no/yes
+         S3 / S7  | S3_static_multi.world    | banyak, STATIS     | no/yes
+         S4 / S8  | S4_dynamic_multi.world   | banyak, DINAMIS    | no/yes
+
+       Sensor (LiDAR + thermal) SELALU aktif di semua skenario.
+       Yang membedakan S1-4 vs S5-8 HANYA fuzzy on/off.
+  -->
+
+  <arg name="scenario" default="S3"/>
+  <arg name="map_file"  default="$(find asr_navigation)/maps/grit_1_edited_2.yaml"/>
   <arg name="open_rviz" default="true"/>
 
+  <!-- Pilih world otomatis dari scenario (S1 and S5 pakai world sama, dst) -->
+  <arg name="world_name"
+       default="$(eval {'S1':'S1_open','S2':'S2_single_human','S3':'S3_static_multi','S4':'S4_dynamic_multi','S5':'S1_open','S6':'S2_single_human','S7':'S3_static_multi','S8':'S4_dynamic_multi'}[arg('scenario')] + '.world')"/>
+
+  <!-- Fuzzy otomatis ON untuk S5-S8, OFF untuk S1-S4 -->
+  <arg name="use_fuzzy"
+       default="$(eval arg('scenario') in ['S5','S6','S7','S8'])"/>
+
+  <!-- Sensor thermal selalu hidup -->
+  <arg name="use_thermal_nav" default="true"/>
+
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find asr_navigation)/worlds/grit_1.world"/>
+    <arg name="world_name" value="$(find asr_navigation)/worlds/$(arg world_name)"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
@@ -12,13 +41,39 @@
   <param name="robot_description" command="cat $(find CAD_ASR_WITH_OMNI_LENGKAP)/CAD_ASR_WITH_OMNI.urdf" />
 
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-        args="-urdf -model CAD_ASR_WITH_OMNI -param robot_description -z 0.05"/>
+        args="-urdf -model CAD_ASR_WITH_OMNI -param robot_description -x 0 -y 0 -z 0.05 -R 1.5708 -P 0 -Y 0"/>
 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="50.0" />
   </node>
-  
+
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+
+  <!-- THERMAL PIPELINE (selalu aktif) -->
+  <group if="$(arg use_thermal_nav)">
+    <node pkg="fuzzy_thermal_nav" type="semantic_thermal.py" name="semantic_thermal" output="screen"/>
+    <node pkg="fuzzy_thermal_nav" type="thermal_feature_extractor.py" name="thermal_feature_extractor" output="screen"/>
+
+    <!-- thermal blindspot -> /thermal_blindspot_scan
+         publish HANYA saat kucing benar-benar terdeteksi (inf saat kosong).
+         keep-out di apf yang menahan posisi (latch-jarak), BUKAN node ini. -->
+    <node pkg="fuzzy_thermal_nav" type="thermal_blindspot_to_scan.py" name="thermal_blindspot_to_scan" output="screen">
+      <param name="frame_id"     value="base_link"/>
+      <param name="near_range"   value="0.50"/>
+      <param name="far_range"    value="1.10"/>
+      <param name="lateral_fov"  value="0.70"/>
+      <param name="roi_top_frac" value="0.60"/>
+      <param name="min_centroid_frac" value="0.60"/>   <!-- naik dari 0.60 -->
+      <param name="min_blob_px"  value="60"/>          <!-- naik dari 60 -->
+      <param name="memory_duration" value="0.9"/>      <!-- turun dari 0.7 -->
+    </node>
+  </group>
+
+  <!-- FUZZY CONTROLLER (hanya S5-S8, node belum dibuat) -->
+  <group if="$(arg use_fuzzy)">
+    <!-- <node pkg="fuzzy_thermal_nav" type="fuzzy_controller.py" name="fuzzy_controller" output="screen"/> -->
+  </group>
+  <param name="use_fuzzy" value="$(arg use_fuzzy)"/>
 
   <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
 
@@ -26,31 +81,78 @@
       <remap from="base_pose_ground_truth" to="/odom"/>
       <param name="global_frame_id" value="map"/>
       <param name="base_frame_id" value="base_link"/>
-      <param name="odom_frame_id" value="odom"/> 
+      <param name="odom_frame_id" value="odom"/>
   </node>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <!-- <param name="base_global_planner" value="mlpso/MLPSO"/> -->
     <param name="base_global_planner" value="navfn/NavfnROS"/>
     <param name="base_local_planner"  value="apf/APFPlanner"/>
-    
+
     <param name="controller_frequency" value="10.0" />
-    <param name="planner_frequency" value="0.0" />
+    <!-- [STEP 15 - RECOMMENDED] Reduce planner_frequency dari 1.0 ke 0.5 Hz
+         untuk mengurangi Navfn goyang oscillation. Thermal virtual obstacle
+         sudah static, tidak perlu replan terlalu sering. -->
+    <param name="planner_frequency" value="0.2" /> 
+    <param name="APFPlanner/cat_influence" value="0.18"/>   <!-- dari 0.35: keep-out hanya aktif saat BENAR dekat (d<0.72), bukan menyodok di 0.73 -->
+    <param name="APFPlanner/k_att" value="1.5"/>          <!-- turunkan dari 2.0 -->
+    <param name="APFPlanner/k_rep_normal" value="0.4"/>   <!-- turunkan dari 0.7 -->
+    <param name="APFPlanner/oscillation_threshold" value="-0.5"/> <!-- kurang sensitif -->
+    <param name="APFPlanner/thermal_rep_enable" value="false"/>   <!-- matikan thermal repulsion -->
+
+    <!-- ============================================================= -->
+    <!-- [S4/S8 DINAMIS] Obstacle human bergerak ~0.8 m/s. APF reaktif -->
+    <!-- butuh deteksi LEBIH AWAL. Nilai lebar HANYA utk S4 & S8.      -->
+    <!-- S1-S3/S5-S7 dapat nilai LAMA (0.7/1.0/0.85) -> hasil S5-S7    -->
+    <!-- yang sudah diambil TETAP VALID (perilaku identik).            -->
+    <!-- d0_normal disamakan dgn gate biar konsisten (gate>d0=mubazir).-->
+    <!-- ============================================================= -->
+    <param name="APFPlanner/d0_normal"
+           value="$(eval 1.2 if arg('scenario') in ['S4','S8'] else 0.85)"/>
+    <param name="APFPlanner/obs_detect_radius"
+           value="$(eval 1.3 if arg('scenario') in ['S4','S8'] else 0.7)"/>
+    <param name="APFPlanner/obs_scan_radius"
+           value="$(eval 1.5 if arg('scenario') in ['S4','S8'] else 1.0)"/>
+
+    <!-- [S4/S8] Repulsi PREDIKTIF (velocity-aware) utk obstacle bergerak.
+         OFF utk skenario lain -> S5-S7 byte-identik & tetap valid.
+         tune kalau perlu: kgain naik=lebih agresif, min_close naik=lebih selektif. -->
+    <param name="APFPlanner/dyn_predict_enable"
+           value="$(eval True if arg('scenario') in ['S4','S8'] else False)"/>
+    <param name="APFPlanner/dyn_predict_tau"       value="0.5"/>
+    <param name="APFPlanner/dyn_predict_kgain"     value="0.4"/>   <!-- dari 1.0: jangan over-slow/freeze -->
+    <param name="APFPlanner/dyn_predict_min_close" value="0.40"/>  <!-- dari 0.25: hanya human BENAR cepat -->
+    <!-- ANTI-FREEZE: kalau mematung di depan obstacle mendekat -> minggir,
+         jangan diam ditabrak. Hanya aktif S4/S8 (lihat dyn_predict_enable). -->
+    <param name="APFPlanner/dyn_min_escape_speed"
+           value="$(eval 0.22 if arg('scenario') in ['S4','S8'] else 0.0)"/>
+    <param name="APFPlanner/dyn_freeze_speed"      value="0.10"/>
+
+    <!-- [S4/S8] TEMPORAL YIELD (mengantri di mulut bottleneck). Hanya S4/S8.
+         Anti-deadlock: yield_max_time batasi lama antri; commit_time biar
+         setelah lepas robot menerobos, tidak antri lagi di tengah leher.
+         Tuning kalau perlu: trigger_dist naik=antri lebih awal; max_time
+         turun=lebih cepat menyerah (hindari stuck). -->
+    <param name="APFPlanner/yield_enable"
+           value="$(eval True if arg('scenario') in ['S4','S8'] else False)"/>
+    <param name="APFPlanner/yield_close_thresh" value="0.30"/>
+    <param name="APFPlanner/yield_cone_deg"     value="70.0"/>
+    <param name="APFPlanner/yield_trigger_dist" value="1.40"/>
+    <param name="APFPlanner/yield_release_dist" value="1.70"/>
+    <param name="APFPlanner/yield_max_time"     value="5.0"/>
+    <param name="APFPlanner/yield_commit_time"  value="2.0"/>
+    <param name="APFPlanner/yield_slow_factor"  value="0.12"/>
 
     <rosparam file="$(find asr_navigation)/params/move_base.yaml" command="load" />
-
     <rosparam file="$(find asr_navigation)/params/common_costmap.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find asr_navigation)/params/common_costmap.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find asr_navigation)/params/common_costmap.yaml" command="load" ns="local_costmap" />   
     <rosparam file="$(find asr_navigation)/params/local_costmap.yaml"  command="load" />
     <rosparam file="$(find asr_navigation)/params/global_costmap.yaml" command="load" />
-    
-    <!-- <rosparam file="$(find asr_navigation)/params/apf_local_planner.yaml" command="load" /> -->
 
     <remap from="cmd_vel" to="/cmd_vel"/>
-    <remap from="odom" to="/odom"/> 
+    <remap from="odom" to="/odom"/>
   </node>
 
-  <group if="$(arg open_rviz)"> 
+  <group if="$(arg open_rviz)">
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find asr_navigation)/params/amcl.rviz"/>
   </group>
 
