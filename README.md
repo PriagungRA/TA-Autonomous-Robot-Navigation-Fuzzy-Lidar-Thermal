@@ -1,181 +1,194 @@
-# README — RUN SIMULASI TA: PSO / APF Navigation
+# Autonomous Robot Navigation Using Fuzzy Logic, LiDAR, and Thermal Camera
 
-Dokumentasi singkat untuk menjalankan simulasi navigation (MLPSO global planner + APF local planner) pada workspace TA.
-Lokasi workspace
+## Overview
 
+This repository contains the implementation of an autonomous wheeled robot navigation system based on Artificial Potential Field (APF) and Mamdani Fuzzy Logic using LiDAR and thermal camera information.
+
+The proposed system integrates thermal perception and LiDAR-based obstacle detection through a decision-level fuzzy fusion mechanism to improve navigation performance in dynamic indoor environments.
+
+The research was conducted as part of an undergraduate thesis at the Department of Electrical Engineering, Institut Teknologi Sepuluh Nopember (ITS), Surabaya, Indonesia.
+
+---
+
+## Research Title
+
+**Autonomous Wheeled Robot Navigation Based on Fuzzy Logic Using LiDAR and Thermal Camera**
+
+---
+
+## System Architecture
+
+The navigation framework consists of the following modules:
+
+1. Thermal Image Processing
+
+   * Thermal image acquisition
+   * Thermal obstacle extraction
+   * Thermal blind-spot detection
+
+2. LiDAR-Based Perception
+
+   * Obstacle detection
+   * Corridor width estimation
+   * Environmental awareness
+
+3. Fuzzy Decision System
+
+   * Mamdani fuzzy inference
+   * Navigation command generation
+   * Dynamic behavior adaptation
+
+4. Navigation Layer
+
+   * ROS Navigation Stack
+   * Global Planner (Navfn)
+   * Local Planner (Artificial Potential Field)
+
+5. Mobile Robot Platform
+
+   * Differential-drive wheeled robot
+   * Gazebo simulation environment
+
+---
+
+## Software Requirements
+
+* Ubuntu 20.04
+* ROS Noetic
+* Gazebo
+* Python 3
+* OpenCV
+* NumPy
+* PCL
+* RViz
+
+---
+
+## Repository Structure
+
+```text
+.
+├── src/
+│   ├── asr_navigation/
+│   ├── fuzzy_thermal_nav/
+│   └── ros_sim/
+│
+├── experiment_data/
+│   ├── S1/
+│   ├── S2/
+│   ├── S3/
+│   ├── S4/
+│   ├── S5/
+│   ├── S6/
+│   ├── S7/
+│   └── S8/
+│
+├── figures/
+├── README.md
+└── LICENSE
 ```
-~/TA/final_ws
-```
-Prasyarat
 
-- ROS (ROS1) terpasang dan terkonfigurasi
-- Dependensi paket di workspace sudah terinstall
+---
 
-Persiapan build
+## Experimental Scenarios
 
-1. Build workspace (jalankan jika belum atau setelah mengubah kode):
+The navigation system was evaluated under eight simulation scenarios.
+
+### Baseline Navigation
+
+| Scenario | Description                |
+| -------- | -------------------------- |
+| S1       | Open environment           |
+| S2       | Single obstacle            |
+| S3       | Multiple static obstacles  |
+| S4       | Multiple dynamic obstacles |
+
+### Fuzzy-Assisted Navigation
+
+| Scenario | Description                                      |
+| -------- | ------------------------------------------------ |
+| S5       | Open environment with fuzzy navigation           |
+| S6       | Single obstacle with fuzzy navigation            |
+| S7       | Multiple static obstacles with fuzzy navigation  |
+| S8       | Multiple dynamic obstacles with fuzzy navigation |
+
+---
+
+## Running the Simulation
+
+### Launch Gazebo Environment
 
 ```bash
-cd ~/TA/final_ws
-catkin_make
-```
-2. Setelah build, selalu source workspace di setiap terminal baru:
-
-```bash
-cd ~/TA/final_ws
-source devel/setup.bash
-```
-Panduan menjalankan sistem (multi-terminal)
-
-CATATAN: Jalankan perintah `source devel/setup.bash` di setiap terminal baru sebelum perintah ROS berikut.
-
-Terminal 1 — ROSCORE
-
-Jalankan ROS master dan biarkan tetap hidup:
-
-```bash
-cd ~/TA/final_ws
-source devel/setup.bash
-roscore
-```
-Terminal 2 — Graph generator
-
-PENTING: Hapus cache graph lama sebelum memulai graph generator (jika perlu):
-
-```bash
-cd ~/TA/final_ws
-source devel/setup.bash
-rm -rf ~/TA/final_ws/src/tuw_multi_robot/tuw_voronoi_graph/cfg/graph/grit_1_edited/cache
-roslaunch tuw_voronoi_graph graph_generator.launch
-```
-Jika berhasil:
-
-- Tidak ada error seperti `boost::archive::archive_exception`
-- Node graph generator tetap berjalan
-
-Terminal 3 — Navigation simulation (Gazebo + RViz + move_base + planner)
-
-```bash
-cd ~/TA/final_ws
-source devel/setup.bash
 roslaunch ros_sim nav_sim.launch
 ```
-Yang harus muncul:
 
-- Gazebo
-- RViz
-- Robot spawn di Gazebo
-- Map muncul di RViz
-- MLPSO Plugin initialized
-- APF Planner Plugin initialized
-
-Menetapkan goal (di RViz)
-
-1. Di RViz pilih tool `2D Nav Goal`.
-2. Klik titik tujuan pada map.
-
-Hasil normal (jika berhasil):
-
-- Global path muncul di RViz
-- Robot bergerak menuju goal
-- Obstacle avoidance aktif
-- Planner MLPSO (global) + APF (local) bekerja
-
-Debug & Troubleshooting
-
-Jika robot tidak berjalan:
-
-1. Pastikan graph generator tidak crash. Jika muncul error `boost::archive::archive_exception`, hapus cache lalu restart graph generator:
+### Launch Thermal Processing
 
 ```bash
-rm -rf ~/TA/final_ws/src/tuw_multi_robot/tuw_voronoi_graph/cfg/graph/grit_1_edited/cache
-# lalu re-run graph generator seperti di Terminal 2
+rosrun fuzzy_thermal_nav semantic_thermal.py
 ```
 
-2. Cek apakah goal berhasil dikirim dari RViz:
+### Launch Fuzzy Navigation
 
 ```bash
-rostopic echo /move_base_simple/goal
+rosrun fuzzy_thermal_nav fuzzy_navigation.py
 ```
 
-Jika ada data pada topic tersebut, RViz mengirim goal dengan benar.
-
-3. Cek apakah planner mengeluarkan velocity command:
+### Visualize Results
 
 ```bash
-rostopic echo /cmd_vel
+rqt_image_view
 ```
 
-Jika kosong, planner gagal menghasilkan path/command.
-
-Jika map tidak muncul di RViz:
-
-1. Pastikan `Fixed Frame` di RViz diset ke `map`.
-2. Tambahkan display `Map` dan set Topic ke `/map`.
-
-Untuk masalah laser/URDF lidar (jika laser tampak aneh):
-
-Periksa pengaturan `rpy` pada URDF lidar, contoh yang umum:
-
-```
-rpy="-1.57 0 0"
-```
-
-Jika perlu kompilasi ulang workspace (mis. `devel/setup.bash` error):
+or
 
 ```bash
-cd ~/TA/final_ws
-catkin_make
+rviz
 ```
 
-Topik penting (debug):
+---
 
-- Scan: `rostopic echo /scan`
-- Map: `rostopic echo /map`
-- Velocity command: `rostopic echo /cmd_vel`
-- Goal dari RViz: `rostopic echo /move_base_simple/goal`
-- TF tree: `rosrun tf view_frames`
+## Experimental Results
 
-Arsitektur sistem (alur data)
+The proposed fuzzy-based navigation system was compared against a baseline navigation strategy under multiple environmental conditions.
 
-Gazebo
-	↓
-Robot + Lidar
-	↓
-/scan
-	↓
-Costmap
-	↓
-MLPSO Global Planner
-	↓
-APF Local Planner
-	↓
-move_base
-	↓
-/cmd_vel
-	↓
-Robot Navigation
+Performance metrics include:
 
-Planner yang digunakan
+* Navigation success rate
+* Travel time
+* Path length
+* Obstacle clearance
+* Collision rate
+* Path smoothness
 
-- Global planner: MLPSO
-- Local planner: APF (Artificial Potential Field)
+The complete experimental data and figures are available in the `experiment_data` directory.
 
-Fitur simulasi
+---
 
-- Autonomous navigation
-- Obstacle avoidance (laser-based)
-- Global path planning (MLPSO)
-- Reactive local planning (APF)
-- Visualisasi di RViz dan simulasi fisika di Gazebo
+## Citation
 
-Catatan tambahan
+If you use this repository for academic purposes, please cite:
 
-- Selalu pastikan `devel/setup.bash` di-source di setiap terminal.
-- Jika ada error build, jalankan `catkin_make` dan perhatikan pesan error untuk dependency yang hilang.
+```bibtex
+@thesis{alfalakhi2026,
+  author  = {Priagung Ramadhan Alfalakhi},
+  title   = {Autonomous Wheeled Robot Navigation Based on Fuzzy Logic Using LiDAR and Thermal Camera},
+  school  = {Institut Teknologi Sepuluh Nopember},
+  year    = {2026}
+}
+```
 
-Butuh bantuan lebih lanjut?
+---
 
-Jika Anda ingin, saya bisa:
-- Menambahkan `README.md` markdown (terpisah) dan commit perubahan.
-- Membuat skrip shell untuk membuka semua terminal dan menjalankan perintah yang diperlukan.
+## Author
+
+**Priagung Ramadhan Alfalakhi**
+Department of Electrical Engineering
+Institut Teknologi Sepuluh Nopember (ITS)
+Surabaya, Indonesia
+
+---
+
+## License
+
+This project is released under the MIT License.
