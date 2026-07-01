@@ -76,6 +76,7 @@ class APFPlanner : public nav_core::BaseLocalPlanner {
         ros::Subscriber center_sub_;
         ros::Subscriber thermal_sub_;
         ros::Subscriber zone_sub_;
+        ros::Publisher  trav_fusion_pub_;   // [RM2-LOG] publish [trav_lidar, trav_thermal_filt, trav_eff]
         
         cv::Mat thermal_semantic_;
         std::mutex thermal_mutex_;
@@ -331,6 +332,16 @@ class APFPlanner : public nav_core::BaseLocalPlanner {
             last_corridor_m_ = corridor_m;
             last_clearance_  = clearance;
             last_trav_lidar_ = trav_lidar;
+
+            // [RM2-LOG] publish bukti fusi: trav_lidar, thermal_filt_, trav_eff
+            std_msgs::Float32MultiArray fusion_msg;
+            fusion_msg.data = {
+                static_cast<float>(trav_lidar),
+                static_cast<float>(thermal_filt_),
+                static_cast<float>(trav_eff)
+            };
+            trav_fusion_pub_.publish(fusion_msg);
+
             return trav_eff;
         }
         
@@ -375,6 +386,12 @@ class APFPlanner : public nav_core::BaseLocalPlanner {
                     1,
                     &APFPlanner::corridorWidthCallback,
                     this
+                );
+                // [RM2-LOG] publish komponen fusi traversability (trav_lidar,
+                // thermal_filt_, trav_eff) tiap kali computeTraversability()
+                // dipanggil, utk bukti empiris fusi min(tau_lidar, tau_thermal)
+                trav_fusion_pub_ = nh.advertise<std_msgs::Float32MultiArray>(
+                    "/trav_fusion_debug", 1
                 );
                 center_sub_ = nh.subscribe(
                     "/center_path",

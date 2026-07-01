@@ -12,6 +12,7 @@ from geometry_msgs.msg import Twist
 from move_base_msgs.msg import MoveBaseActionResult
 from move_base_msgs.msg import RecoveryStatus
 from std_msgs.msg import Float32
+from std_msgs.msg import Float32MultiArray
 from gazebo_msgs.msg import ModelStates
 
 
@@ -84,6 +85,9 @@ class ExperimentLogger:
         self.traversability_scores = []
         self.corridor_widths = []
 
+        # [RM2-LOG] time series fusi traversability: [(t, trav_lidar, trav_thermal, trav_eff), ...]
+        self.trav_fusion_log = []
+
         # ================================
         # SUBSCRIBERS
         # ================================
@@ -95,6 +99,7 @@ class ExperimentLogger:
         rospy.Subscriber("/gazebo/model_states", ModelStates, self.model_states_cb, queue_size=1)
         rospy.Subscriber("/traversability_score", Float32, self.trav_cb)
         rospy.Subscriber("/corridor_width", Float32, self.width_cb)
+        rospy.Subscriber("/trav_fusion_debug", Float32MultiArray, self.trav_fusion_cb)
 
         rospy.loginfo("LOGGER STARTED (collision = GROUND TRUTH, termasuk kucing)")
 
@@ -118,6 +123,7 @@ class ExperimentLogger:
         self.last_obs_log_t = -1.0
         self.traversability_scores = []
         self.corridor_widths = []
+        self.trav_fusion_log = []          # [RM2-LOG] reset per trial
 
     # ---------------------------------
     def goal_cb(self, msg):
@@ -235,6 +241,17 @@ class ExperimentLogger:
         self.corridor_widths.append(msg.data)
 
     # ---------------------------------
+    def trav_fusion_cb(self, msg):
+        """[RM2-LOG] Bukti empiris fusi: tau_eff = min(tau_lidar, tau_thermal)."""
+        if not self.goal_received or self.finished or len(msg.data) < 3:
+            return
+        t = time.time() - self.start_time if self.start_time else 0.0
+        trav_lidar, trav_thermal, trav_eff = msg.data[0], msg.data[1], msg.data[2]
+        self.trav_fusion_log.append((
+            round(t, 3), round(trav_lidar, 4), round(trav_thermal, 4), round(trav_eff, 4)
+        ))
+
+    # ---------------------------------
     def write_csv(self, row):
         base_dir = os.path.expanduser("~/TA/final_ws/experiment_data")
         scenario_dir = os.path.join(base_dir, self.scenario)
@@ -309,6 +326,14 @@ class ExperimentLogger:
                 for name, pts in self.obs_track.items():
                     for (tt, ox, oy) in pts:
                         w.writerow([tt, name, ox, oy])
+
+        # [RM2-LOG] time series fusi traversability (tau_lidar, tau_thermal, tau_eff)
+        if self.trav_fusion_log:
+            fusion_file = os.path.join(scen_dir, f"trav_fusion_trial_{self.trial_id}.csv")
+            with open(fusion_file, "w") as f:
+                w = csv.writer(f)
+                w.writerow(["t", "trav_lidar", "trav_thermal_filt", "trav_eff"])
+                w.writerows(self.trav_fusion_log)
 
     # ---------------------------------
     def timeout_cb(self, event):
