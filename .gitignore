@@ -4,3 +4,4 @@ logs/
 *.pyc
 __pycache__/
 .vscode/
+experiment_data copy/
